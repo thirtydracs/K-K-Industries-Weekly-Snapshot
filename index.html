@@ -593,6 +593,565 @@
   }
 </script>
 </body>
+</html>      --ontrack-border:  rgba(26,122,60,0.22);
+
+      --accent: #1D4ED8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      gap: 24px; flex-wrap: wrap;
+      animation: fadeUp 0.4s ease both;
+      border-bottom: 2px solid var(--text-1);
+      padding-bottom: 28px;
+    }
+
+    .brand-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 6px;
+    }
+
+    .brand h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800; letter-spacing: -0.01em; line-height: 1;
+      color: var(--text-1);
+    }
+    .brand h1 span { color: var(--accent); }
+
+    .meta { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+    .meta-row {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; color: var(--text-3); letter-spacing: 0.05em;
+    }
+    .meta-row strong { color: var(--text-2); font-weight: 500; }
+
+    /* KPI STRIP */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px; margin-bottom: 36px;
+      border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden;
+      animation: fadeUp 0.4s 0.08s ease both;
+    }
+
+    .kpi {
+      background: var(--surface);
+      padding: 18px 20px;
+      display: flex; flex-direction: column; gap: 4px;
+      transition: background 0.15s;
+      border-top: 3px solid var(--text-1);
+    }
+    .kpi:hover { background: var(--surface2); }
+    .kpi.critical { border-top-color: var(--critical); }
+    .kpi.behind   { border-top-color: var(--behind);   }
+    .kpi.ontrack  { border-top-color: var(--ontrack);  }
+
+    .kpi-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 38px; font-weight: 700; line-height: 1;
+      color: var(--text-1);
+    }
+    .kpi-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text-3);
+    }
+
+    .kpi.critical .kpi-value { color: var(--critical); }
+    .kpi.behind   .kpi-value { color: var(--behind);   }
+    .kpi.ontrack  .kpi-value { color: var(--ontrack);  }
+
+    /* SECTION HEAD */
+    .section-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+    }
+    .section-head h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--text-3); white-space: nowrap;
+    }
+    .section-head::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* SELECTOR */
+    .selector-wrap { animation: fadeUp 0.4s 0.16s ease both; }
+    .selector-list { display: flex; flex-direction: column; gap: 2px; }
+
+    .selector-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .selector-item:hover {
+      border-color: var(--border2);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .selector-item.open {
+      border-color: var(--border2);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    .selector-trigger {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 20px; width: 100%;
+      background: none; border: none;
+      cursor: pointer; color: inherit; text-align: left;
+      transition: background 0.15s;
+    }
+    .selector-trigger:hover { background: var(--surface2); }
+
+    .status-bar {
+      width: 3px; height: 32px;
+      border-radius: 2px; flex-shrink: 0;
+    }
+    .critical-bar { background: var(--critical); }
+    .behind-bar   { background: var(--behind);   }
+    .ontrack-bar  { background: var(--ontrack);  }
+
+    .trigger-info { flex: 1; }
+    .trigger-sub {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 3px;
+    }
+    .trigger-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px; font-weight: 700;
+      color: var(--text-1); line-height: 1;
+    }
+
+    .trigger-right { display: flex; align-items: center; gap: 12px; }
+
+    .status-pill {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 4px 9px; border-radius: 2px; white-space: nowrap;
+    }
+    .status-pill.critical { background: var(--critical-bg); color: var(--critical); border: 1px solid var(--critical-border); }
+    .status-pill.behind   { background: var(--behind-bg);   color: var(--behind);   border: 1px solid var(--behind-border);   }
+    .status-pill.atrisk   { background: var(--atrisk-bg);   color: var(--atrisk);   border: 1px solid var(--atrisk-border);   }
+    .status-pill.ontrack  { background: var(--ontrack-bg);  color: var(--ontrack);  border: 1px solid var(--ontrack-border);  }
+
+    .chevron {
+      width: 18px; height: 18px;
+      color: var(--text-3);
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+    .selector-item.open .chevron { transform: rotate(180deg); }
+
+    /* PANEL */
+    .panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .selector-item.open .panel { max-height: 700px; }
+
+    .panel-inner {
+      border-top: 1px solid var(--border);
+      background: var(--surface2);
+      padding: 20px;
+      display: flex; flex-direction: column; gap: 14px;
+      align-items: stretch;
+    }
+
+    /* BLOCKER */
+    .blocker-row {
+      border-radius: 3px;
+      padding: 11px 14px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .blocker-row.critical { background: var(--critical-bg);  border: 1px solid var(--critical-border); }
+    .blocker-row.behind   { background: var(--behind-bg);    border: 1px solid var(--behind-border);   }
+    .blocker-row.ontrack  { background: var(--ontrack-bg);   border: 1px solid var(--ontrack-border);  }
+
+    .blocker-icon {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; margin-top: 1px; flex-shrink: 0;
+    }
+    .blocker-icon.critical { color: var(--critical); }
+    .blocker-icon.behind   { color: var(--behind);   }
+    .blocker-icon.ontrack  { color: var(--ontrack);  }
+
+    .blocker-text { font-size: 13.5px; color: var(--text-2); line-height: 1.5; }
+
+    /* INFO ROWS */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 16px;
+    }
+    .info-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-3);
+      padding-top: 2px;
+    }
+    .info-value { font-size: 13.5px; color: var(--text-2); line-height: 1.5; }
+
+    /* ACTION CHIP */
+    .action-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+      color: var(--accent);
+      border: 1px solid rgba(29,78,216,0.22);
+      background: rgba(29,78,216,0.05);
+      border-radius: 3px;
+      padding: 9px 14px;
+      align-self: flex-start;
+      max-width: 100%;
+      width: auto;
+    }
+    .action-chip::before { content: '→'; flex-shrink: 0; }
+
+    /* RISK TABLE */
+    .risk-table {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden;
+    }
+    .risk-table table { width: 100%; border-collapse: collapse; }
+    .risk-table thead tr {
+      background: var(--text-1);
+    }
+    .risk-table th {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); padding: 12px 16px; text-align: left;
+    }
+    .risk-table td {
+      font-size: 13px; color: var(--text-2);
+      padding: 12px 16px; vertical-align: top;
+      border-bottom: 1px solid var(--border); line-height: 1.5;
+    }
+    .risk-table tr:last-child td { border-bottom: none; }
+    .risk-table tr:hover td { background: var(--surface2); }
+    .risk-table td:first-child { font-weight: 500; color: var(--text-1); white-space: nowrap; }
+
+    .dot {
+      display: inline-block;
+      width: 6px; height: 6px; border-radius: 50%;
+      margin-right: 8px;
+    }
+    .dot.critical { background: var(--critical); }
+    .dot.behind   { background: var(--behind);   }
+    .dot.ontrack  { background: var(--ontrack);  }
+
+    /* BLIND SPOT */
+    .blind-spot {
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--text-3);
+      background: var(--surface);
+      border-radius: 0 3px 3px 0;
+      padding: 14px 18px;
+      display: flex; gap: 14px; align-items: flex-start;
+      margin-top: 14px;
+    }
+    .blind-spot-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text-3);
+      white-space: nowrap; margin-top: 1px;
+    }
+    .blind-spot-text { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+    /* FOOTER */
+    footer {
+      margin-top: 56px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    footer span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--text-3); letter-spacing: 0.08em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 28px 16px 60px; }
+      .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+      .meta { align-items: flex-start; }
+      header { flex-direction: column; }
+      .info-grid { grid-template-columns: 100px 1fr; }
+      .risk-table { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <h1>K<span>&amp;</span>K Industries — <span style="font-weight:300;color:var(--text-1)">Weekly Snapshot</span></h1>
+    </div>
+    <div class="meta">
+      <div class="meta-row">Period ending <strong>1 April 2026</strong></div>
+    </div>
+  </header>
+
+  <div class="kpi-strip">
+    <div class="kpi">
+      <span class="kpi-value">4</span>
+      <span class="kpi-label">Jobs Active</span>
+    </div>
+    <div class="kpi critical">
+      <span class="kpi-value">2</span>
+      <span class="kpi-label">Critical</span>
+    </div>
+    <div class="kpi behind">
+      <span class="kpi-value">1</span>
+      <span class="kpi-label">Behind</span>
+    </div>
+    <div class="kpi ontrack">
+      <span class="kpi-value">1</span>
+      <span class="kpi-label">On Track</span>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>Project Snapshots</h2></div>
+
+  <div class="selector-wrap">
+    <div class="selector-list">
+
+      <!-- CALTEX -->
+      <div class="selector-item" data-id="caltex">
+        <button class="selector-trigger" onclick="toggle('caltex')">
+          <div class="status-bar critical-bar"></div>
+          <div class="trigger-info">
+            <div class="trigger-sub">Caltex D'Aguilar</div>
+            <div class="trigger-name">Critical</div>
+          </div>
+          <div class="trigger-right">
+            <span class="status-pill critical">Critical</span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </button>
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="blocker-row critical">
+              <span class="blocker-icon critical">!</span>
+              <span class="blocker-text">Demolition incomplete. Site cannot progress to next stage — no meaningful output this week.</span>
+            </div>
+            <div class="info-grid">
+              <span class="info-label">Position</span>
+              <span class="info-value">Blocked at demolition. Next stage will not commence until complete.</span>
+              <span class="info-label">Labour</span>
+              <span class="info-value">Insufficient. Workforce mobilisation required immediately.</span>
+              <span class="info-label">Main Risk</span>
+              <span class="info-value">Programme delays compounding — every day of inaction increases downstream impact.</span>
+            </div>
+            <span class="action-chip">Complete demolition and mobilise workforce immediately</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EMERALD -->
+      <div class="selector-item" data-id="emerald">
+        <button class="selector-trigger" onclick="toggle('emerald')">
+          <div class="status-bar critical-bar"></div>
+          <div class="trigger-info">
+            <div class="trigger-sub">Pearl Energy Emerald</div>
+            <div class="trigger-name">Critical</div>
+          </div>
+          <div class="trigger-right">
+            <span class="status-pill critical">Critical</span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </button>
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="blocker-row critical">
+              <span class="blocker-icon critical">!</span>
+              <span class="blocker-text">Labour shortage and coordination breakdown. Limited site activity. Programme slipping further each week without intervention.</span>
+            </div>
+            <div class="info-grid">
+              <span class="info-label">Position</span>
+              <span class="info-value">Ongoing delays with minimal productive output.</span>
+              <span class="info-label">Labour</span>
+              <span class="info-value">Insufficient. Trade coordination also failing.</span>
+              <span class="info-label">Main Risk</span>
+              <span class="info-value">Without urgent intervention, slippage will become unrecoverable before it visibly escalates.</span>
+            </div>
+            <span class="action-chip">Immediate resourcing and coordination intervention required</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHILDERS -->
+      <div class="selector-item" data-id="childers">
+        <button class="selector-trigger" onclick="toggle('childers')">
+          <div class="status-bar behind-bar"></div>
+          <div class="trigger-info">
+            <div class="trigger-sub">Pearl Energy Childers</div>
+            <div class="trigger-name">Behind</div>
+          </div>
+          <div class="trigger-right">
+            <span class="status-pill behind">Behind</span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </button>
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="blocker-row behind">
+              <span class="blocker-icon behind">▲</span>
+              <span class="blocker-text">Concrete works have not started. Concreter mobilisation is the critical gate — Easter shutdown adding further delay.</span>
+            </div>
+            <div class="info-grid">
+              <span class="info-label">Actual</span>
+              <span class="info-value">~90% of stockpile sieved. Survey set-outs completed 30 March.</span>
+              <span class="info-label">Planned</span>
+              <span class="info-value">Clear remaining sieved material. Prepare work zone for concreters.</span>
+              <span class="info-label">Labour</span>
+              <span class="info-value">One civil operator only. No broader trade presence on site.</span>
+              <span class="info-label">Main Risk</span>
+              <span class="info-value">Concreter start date unconfirmed post-Easter. Any further slippage flows directly to practical completion.</span>
+            </div>
+            <span class="action-chip">Confirm post-Easter concreter start — no further deferral</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- WILLIAMSTOWN -->
+      <div class="selector-item" data-id="williamstown">
+        <button class="selector-trigger" onclick="toggle('williamstown')">
+          <div class="status-bar ontrack-bar"></div>
+          <div class="trigger-info">
+            <div class="trigger-sub">Exus Williamstown</div>
+            <div class="trigger-name">On Track</div>
+          </div>
+          <div class="trigger-right">
+            <span class="status-pill ontrack">On Track</span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </button>
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="blocker-row ontrack">
+              <span class="blocker-icon ontrack">✓</span>
+              <span class="blocker-text">No critical blocker identified. Work progressing in line with expectations.</span>
+            </div>
+            <div class="info-grid">
+              <span class="info-label">Position</span>
+              <span class="info-value">Progressing steadily. No major reported issues this week.</span>
+              <span class="info-label">Labour</span>
+              <span class="info-value">Sufficient for current stage.</span>
+              <span class="info-label">Risk Watch</span>
+              <span class="info-value">Monitor for programme slippage before it becomes visible late. Validate next-stage readiness proactively.</span>
+            </div>
+            <span class="action-chip">Maintain pace and verify next-stage readiness</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RISK TABLE -->
+  <div style="margin-top: 44px;">
+    <div class="section-head"><h2>Key Risks &amp; Actions</h2></div>
+    <div class="risk-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Risk</th>
+            <th>Required Action</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="dot critical"></span>Caltex D'Aguilar</td>
+            <td>Demolition stalled. Site cannot progress. Workforce absent.</td>
+            <td>Complete demolition. Mobilise immediately.</td>
+            <td><span class="status-pill critical">Critical</span></td>
+          </tr>
+          <tr>
+            <td><span class="dot critical"></span>Pearl Energy Emerald</td>
+            <td>Labour + coordination failure. Programme slipping without intervention.</td>
+            <td>Urgent resourcing and trade coordination required.</td>
+            <td><span class="status-pill critical">Critical</span></td>
+          </tr>
+          <tr>
+            <td><span class="dot behind"></span>Pearl Energy Childers</td>
+            <td>Concreter not mobilised. Easter shutdown adding risk. Critical path exposed.</td>
+            <td>Confirm post-Easter concreter start. No further deferral.</td>
+            <td><span class="status-pill behind">Urgent</span></td>
+          </tr>
+          <tr>
+            <td><span class="dot ontrack"></span>Exus Williamstown</td>
+            <td>Potential for hidden slippage before it surfaces.</td>
+            <td>Validate next-stage readiness proactively.</td>
+            <td><span class="status-pill ontrack">Monitor</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>K&amp;K Industries · Weekly Snapshot</span>
+    <span>Period ending 1 April 2026</span>
+  </footer>
+
+</div>
+
+<script>
+  function toggle(id) {
+    document.querySelectorAll('.selector-item').forEach(item => {
+      if (item.dataset.id === id) {
+        item.classList.toggle('open');
+      } else {
+        item.classList.remove('open');
+      }
+    });
+  }
+</script>
+</body>
 </html>            line-height: 1.6;
             min-height: 100vh;
         }
