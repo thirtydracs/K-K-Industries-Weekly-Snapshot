@@ -152,8 +152,8 @@
   </footer>
 </div>
 
-<!-- Load weekly data -->
 <script src="data/weekly.js"></script>
+
 <script>
   // ── HELPERS ──────────────────────────────────────────────────────
   function mapStatus(s) {
@@ -266,6 +266,60 @@
   }
 
   render();
+</script>
+
+<script>
+  // ── PASSWORD GATE ─────────────────────────────────────────────────
+  (function() {
+    const PASSWORD = 'kk2026'; // ← change this to whatever you want
+
+    const overlay = document.createElement('div');
+    overlay.id = 'loginOverlay';
+    overlay.style.cssText = `
+      position:fixed;inset:0;background:#F5F4F0;
+      display:flex;align-items:center;justify-content:center;
+      z-index:9999;font-family:'Barlow',sans-serif;
+    `;
+    overlay.innerHTML = `
+      <div style="width:100%;max-width:380px;padding:0 24px;">
+        <div style="border-bottom:2px solid #1A1814;padding-bottom:20px;margin-bottom:32px;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#9E9A92;margin-bottom:6px;">Weekly Snapshot</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;line-height:1;color:#1A1814;">K<span style="color:#1D4ED8">&amp;</span>K Industries</div>
+        </div>
+        <div style="margin-bottom:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#9E9A92;">Password</div>
+        <input id="loginInput" type="password" placeholder="Enter password"
+          style="width:100%;padding:11px 14px;border:1px solid #E2DFD8;border-radius:3px;background:#fff;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#1A1814;outline:none;margin-bottom:10px;"
+          onkeydown="if(event.key==='Enter')document.getElementById('loginBtn').click()"
+        />
+        <div id="loginError" style="display:none;font-size:12px;color:#C8271E;margin-bottom:10px;font-family:'IBM Plex Mono',monospace;">Incorrect password.</div>
+        <button id="loginBtn" style="width:100%;padding:13px;background:#1A1814;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;">
+          Enter
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Focus input on load
+    setTimeout(() => document.getElementById('loginInput').focus(), 100);
+
+    document.getElementById('loginBtn').addEventListener('click', function() {
+      const val = document.getElementById('loginInput').value;
+      if (val === PASSWORD) {
+        sessionStorage.setItem('kk_auth', '1');
+        overlay.remove();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+        document.getElementById('loginInput').value = '';
+        document.getElementById('loginInput').focus();
+      }
+    });
+
+    // Already authenticated this session
+    if (sessionStorage.getItem('kk_auth') === '1') {
+      overlay.remove();
+    }
+  })();
 </script>
 </body>
 </html>
