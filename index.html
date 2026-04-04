@@ -3,41 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>K&K Industries — Weekly Site Snapshots</title>
+  <title>K&K Industries — Weekly Snapshot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #F5F4F0; --surface: #FFFFFF; --surface2: #F9F8F5;
-      --border: #E2DFD8; --border2: #CCC8C0;
-      --text-1: #1A1814; --text-2: #5C5850; --text-3: #9E9A92;
-      --critical: #C8271E; --behind: #D4620A; --ontrack: #1A7A3C; --unknown: #7B5EA7; --accent: #1D4ED8;
-      --critical-bg: rgba(200,39,30,0.06); --behind-bg: rgba(212,98,10,0.06); --ontrack-bg: rgba(26,122,60,0.06); --unknown-bg: rgba(123,94,167,0.06);
-      --critical-border: rgba(200,39,30,0.22); --behind-border: rgba(212,98,10,0.22); --ontrack-border: rgba(26,122,60,0.22); --unknown-border: rgba(123,94,167,0.22);
+      --bg: #F5F4F0;
+      --surface: #FFFFFF;
+      --surface2: #F9F8F5;
+      --border: #E2DFD8;
+      --border2: #CCC8C0;
+      --text-1: #1A1814;
+      --text-2: #5C5850;
+      --text-3: #9E9A92;
+      --critical: #C8271E;
+      --behind: #D4620A;
+      --ontrack: #1A7A3C;
+      --unknown: #7B5EA7;
+      --accent: #1D4ED8;
+      --critical-bg: rgba(200,39,30,0.06);
+      --behind-bg: rgba(212,98,10,0.06);
+      --ontrack-bg: rgba(26,122,60,0.06);
+      --unknown-bg: rgba(123,94,167,0.06);
+      --critical-border: rgba(200,39,30,0.22);
+      --behind-border: rgba(212,98,10,0.22);
+      --ontrack-border: rgba(26,122,60,0.22);
+      --unknown-border: rgba(123,94,167,0.22);
     }
+
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text-1); font-family: 'Barlow', sans-serif; font-weight: 400; min-height: 100vh; overflow-x: hidden; }
     .wrap { max-width: 920px; margin: 0 auto; padding: 48px 32px 80px; }
 
-    /* HEADER */
-    header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; gap: 24px; flex-wrap: wrap; border-bottom: 2px solid var(--text-1); padding-bottom: 24px; animation: fadeUp 0.4s ease both; }
-    .brand h1 { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(26px, 5vw, 46px); font-weight: 800; letter-spacing: -0.01em; line-height: 1; }
+    /* ── HEADER ── */
+    header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 36px; gap: 24px; flex-wrap: wrap;
+      border-bottom: 2px solid var(--text-1); padding-bottom: 24px;
+      animation: fadeUp 0.4s ease both;
+    }
+    .brand h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(26px, 5vw, 46px);
+      font-weight: 800; letter-spacing: -0.01em; line-height: 1;
+    }
     .brand h1 .amp { color: var(--accent); }
     .brand h1 .light { font-weight: 300; }
     .meta { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
     .meta-row { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.05em; }
     .meta-row strong { color: var(--text-2); font-weight: 500; }
 
-    /* WEEK TABS */
-    .week-tabs { display: flex; gap: 2px; margin-bottom: 32px; flex-wrap: wrap; animation: fadeUp 0.4s 0.06s ease both; }
-    .week-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 8px 14px; border: 1px solid var(--border); border-radius: 2px; background: var(--surface); color: var(--text-3); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    /* ── WEEK TABS ── */
+    .week-tabs {
+      display: flex; gap: 2px; margin-bottom: 32px; flex-wrap: wrap;
+      animation: fadeUp 0.4s 0.06s ease both;
+    }
+    .week-tab {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase; padding: 8px 14px;
+      border: 1px solid var(--border); border-radius: 2px; background: var(--surface);
+      color: var(--text-3); cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
     .week-tab:hover { border-color: var(--border2); color: var(--text-2); }
     .week-tab.active { background: var(--text-1); color: #fff; border-color: var(--text-1); }
 
-    /* KPI STRIP */
-    .kpi-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-bottom: 36px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; animation: fadeUp 0.4s 0.12s ease both; }
+    /* ── KPI STRIP ── */
+    .kpi-strip {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
+      margin-bottom: 36px; border: 1px solid var(--border); border-radius: 4px;
+      overflow: hidden; animation: fadeUp 0.4s 0.12s ease both;
+    }
     .kpi { background: var(--surface); padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; border-top: 3px solid var(--border2); transition: background 0.15s; }
     .kpi:hover { background: var(--surface2); }
     .kpi.critical { border-top-color: var(--critical); }
@@ -51,47 +89,60 @@
     .kpi.ontrack  .kpi-value { color: var(--ontrack); }
     .kpi.unknown  .kpi-value { color: var(--unknown); }
 
-    /* SECTION HEAD */
+    /* ── SECTION HEAD ── */
     .section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
     .section-head h2 { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; }
     .section-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-    /* ACCORDION */
+    /* ── ACCORDION ── */
     .selector-wrap { animation: fadeUp 0.4s 0.18s ease both; }
     .selector-list { display: flex; flex-direction: column; gap: 2px; }
+
     .selector-item { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; transition: border-color 0.15s, box-shadow 0.15s; }
     .selector-item:hover { border-color: var(--border2); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
     .selector-item.open { border-color: var(--border2); box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+
     .selector-trigger { display: flex; align-items: center; gap: 14px; padding: 16px 20px; width: 100%; background: none; border: none; cursor: pointer; color: inherit; text-align: left; transition: background 0.15s; }
     .selector-trigger:hover { background: var(--surface2); }
+
     .status-bar { width: 3px; height: 36px; border-radius: 2px; flex-shrink: 0; }
     .critical-bar { background: var(--critical); }
     .behind-bar   { background: var(--behind); }
     .ontrack-bar  { background: var(--ontrack); }
     .unknown-bar  { background: var(--unknown); }
+
     .trigger-info { flex: 1; min-width: 0; }
     .trigger-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); margin-bottom: 3px; }
     .trigger-name { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: var(--text-1); line-height: 1; }
+
     .trigger-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
     .status-pill { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 9px; border-radius: 2px; white-space: nowrap; }
     .status-pill.critical { background: var(--critical-bg); color: var(--critical); border: 1px solid var(--critical-border); }
     .status-pill.behind   { background: var(--behind-bg);   color: var(--behind);   border: 1px solid var(--behind-border); }
     .status-pill.ontrack  { background: var(--ontrack-bg);  color: var(--ontrack);  border: 1px solid var(--ontrack-border); }
     .status-pill.unknown  { background: var(--unknown-bg);  color: var(--unknown);  border: 1px solid var(--unknown-border); }
+
     .score-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; color: var(--text-3); white-space: nowrap; }
+
     .chevron { width: 16px; height: 16px; color: var(--text-3); transition: transform 0.25s ease; flex-shrink: 0; }
     .selector-item.open .chevron { transform: rotate(180deg); }
 
-    /* PANEL */
+    /* ── PANEL ── */
     .panel { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
     .selector-item.open .panel { max-height: 2000px; }
-    .panel-inner { border-top: 1px solid var(--border); background: var(--surface2); padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-    .panel-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-3); padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 
-    .data-warning { display: flex; gap: 10px; align-items: flex-start; background: rgba(212,98,10,0.07); border: 1px solid rgba(212,98,10,0.25); border-radius: 3px; padding: 10px 14px; }
+    .panel-inner { border-top: 1px solid var(--border); background: var(--surface2); padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+
+    /* Data warning */
+    .data-warning {
+      display: flex; gap: 10px; align-items: flex-start;
+      background: rgba(212,98,10,0.07); border: 1px solid rgba(212,98,10,0.25);
+      border-radius: 3px; padding: 10px 14px;
+    }
     .data-warning-icon { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--behind); flex-shrink: 0; margin-top: 1px; }
     .data-warning-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--behind); line-height: 1.5; }
 
+    /* Blocker */
     .blocker-row { border-radius: 3px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; }
     .blocker-row.critical { background: var(--critical-bg); border: 1px solid var(--critical-border); }
     .blocker-row.behind   { background: var(--behind-bg);   border: 1px solid var(--behind-border); }
@@ -109,13 +160,15 @@
     .blocker-label.unknown  { color: var(--unknown); }
     .blocker-text { font-size: 13.5px; color: var(--text-2); line-height: 1.55; }
 
-    .info-grid { display: grid; grid-template-columns: 120px 1fr; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
+    /* Info grid */
+    .info-grid { display: grid; grid-template-columns: 120px 1fr; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
     .info-row { display: contents; }
     .info-row:not(:last-child) .info-label,
     .info-row:not(:last-child) .info-value { border-bottom: 1px solid var(--border); }
-    .info-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); padding: 12px; background: var(--surface2); border-right: 1px solid var(--border); display: flex; align-items: flex-start; }
+    .info-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); padding: 10px 12px; background: var(--surface2); border-right: 1px solid var(--border); display: flex; align-items: flex-start; padding-top: 12px; }
     .info-value { font-size: 13px; color: var(--text-2); line-height: 1.55; padding: 10px 14px; }
 
+    /* Progress grid */
     .progress-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
     .progress-cell { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; padding: 12px 14px; display: flex; flex-direction: column; gap: 5px; }
     .progress-cell-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); }
@@ -124,6 +177,7 @@
     .progress-cell.gap-cell .progress-cell-label { color: var(--behind); }
     .progress-cell.gap-cell .progress-cell-value { color: var(--text-1); }
 
+    /* Issues table */
     .panel-table { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
     .panel-table table { width: 100%; border-collapse: collapse; }
     .panel-table thead tr { background: var(--text-1); }
@@ -133,26 +187,30 @@
     .panel-table tr:hover td { background: var(--surface2); }
     .panel-table td:first-child { font-weight: 500; color: var(--text-1); }
 
+    /* Contractor pills */
     .contractor-list { display: flex; flex-direction: column; gap: 2px; }
     .contractor-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; }
     .contractor-status { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 7px; border-radius: 2px; flex-shrink: 0; border: 1px solid transparent; }
-    .contractor-status.performing    { background: var(--ontrack-bg);  color: var(--ontrack);  border-color: var(--ontrack-border); }
-    .contractor-status.adequate      { background: rgba(29,78,216,0.06); color: var(--accent);  border-color: rgba(29,78,216,0.2); }
-    .contractor-status.monitor       { background: var(--behind-bg);   color: var(--behind);   border-color: var(--behind-border); }
+    .contractor-status.performing   { background: var(--ontrack-bg);  color: var(--ontrack);  border-color: var(--ontrack-border); }
+    .contractor-status.adequate     { background: rgba(29,78,216,0.06); color: var(--accent);  border-color: rgba(29,78,216,0.2); }
+    .contractor-status.monitor      { background: var(--behind-bg);   color: var(--behind);   border-color: var(--behind-border); }
     .contractor-status.underperforming { background: var(--critical-bg); color: var(--critical); border-color: var(--critical-border); }
-    .contractor-status.not_started   { background: var(--unknown-bg);  color: var(--unknown);  border-color: var(--unknown-border); }
+    .contractor-status.not_started  { background: var(--unknown-bg);  color: var(--unknown);  border-color: var(--unknown-border); }
     .contractor-name { font-size: 13px; font-weight: 500; color: var(--text-1); flex-shrink: 0; min-width: 160px; }
     .contractor-reason { font-size: 12.5px; color: var(--text-3); line-height: 1.4; }
 
+    /* Repeat issues */
     .repeat-banner { background: var(--critical-bg); border: 1px solid var(--critical-border); border-radius: 3px; padding: 10px 14px; display: flex; gap: 10px; }
     .repeat-banner-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--critical); flex-shrink: 0; margin-top: 2px; }
     .repeat-banner-text { font-size: 12.5px; color: var(--text-2); line-height: 1.5; }
 
+    /* Next actions */
     .action-list { display: flex; flex-direction: column; gap: 6px; }
     .action-chip { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--accent); border: 1px solid rgba(29,78,216,0.2); background: rgba(29,78,216,0.04); border-radius: 3px; padding: 9px 14px; line-height: 1.45; }
     .action-arrow { font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; margin-top: 1px; }
 
-    .score-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    /* Score */
+    .score-row { display: flex; align-items: center; gap: 12px; }
     .score-num { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 700; line-height: 1; }
     .score-denom { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-3); }
     .score-label-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 9px; border-radius: 2px; }
@@ -161,7 +219,26 @@
     .score-label-badge.problem  { background: var(--critical-bg); color: var(--critical); border: 1px solid var(--critical-border); }
     .score-reason { font-size: 12.5px; color: var(--text-3); line-height: 1.5; flex: 1; }
 
-    /* FOOTER */
+    /* Subsection labels inside panel */
+    .panel-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-3); padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+
+    /* ── RISK TABLE ── */
+    .risk-section { margin-top: 40px; animation: fadeUp 0.4s 0.24s ease both; }
+    .risk-table { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .risk-table table { width: 100%; border-collapse: collapse; }
+    .risk-table thead tr { background: var(--text-1); }
+    .risk-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.55); padding: 12px 16px; text-align: left; }
+    .risk-table td { font-size: 13px; color: var(--text-2); padding: 12px 16px; vertical-align: top; border-bottom: 1px solid var(--border); line-height: 1.5; }
+    .risk-table tr:last-child td { border-bottom: none; }
+    .risk-table tr:hover td { background: var(--surface2); }
+    .risk-table td:first-child { font-weight: 500; color: var(--text-1); white-space: nowrap; }
+    .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; flex-shrink: 0; }
+    .dot.critical { background: var(--critical); }
+    .dot.behind   { background: var(--behind); }
+    .dot.ontrack  { background: var(--ontrack); }
+    .dot.unknown  { background: var(--unknown); }
+
+    /* ── FOOTER ── */
     footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
     footer span { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-3); letter-spacing: 0.08em; }
 
@@ -174,6 +251,7 @@
       header { flex-direction: column; }
       .progress-grid { grid-template-columns: 1fr; }
       .contractor-name { min-width: 120px; }
+      .risk-table { overflow-x: auto; }
       .kpi:last-child { display: none; }
     }
   </style>
@@ -191,11 +269,22 @@
   </header>
 
   <div class="week-tabs" id="weekTabs"></div>
+
   <div class="kpi-strip" id="kpiStrip"></div>
 
   <div class="section-head"><h2>Project Snapshots</h2></div>
   <div class="selector-wrap">
     <div class="selector-list" id="projectList"></div>
+  </div>
+
+  <div class="risk-section">
+    <div class="section-head"><h2>Key Risks &amp; Actions</h2></div>
+    <div class="risk-table">
+      <table>
+        <thead><tr><th>Project</th><th>Holding the Job</th><th>Required Action</th><th>Priority</th></tr></thead>
+        <tbody id="riskTableBody"></tbody>
+      </table>
+    </div>
   </div>
 
   <footer>
@@ -205,137 +294,10 @@
 
 </div>
 
+<script src="data/weekly.js"></script>
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────────────
-// Add new weeks at the TOP. Keep oldest at the bottom.
 
-const weeklyData = [
-
-  {
-    weekEnding: "4 April 2026",
-    project: "Caltex D'Aguilar",
-    status: "Behind",
-    holding: "Ace Demolition. Consistently sending 1 man, failing to show up, and working minimal hours. Rubbish removal is an outstanding constraint blocking road base and next-phase civil works.",
-    labour: "Insufficient",
-    labourDetail: "PGE Civil adequate at 2–4 men. Ace Demolition insufficient — 1 man maximum, absent Mar 27, leaving early Mar 26. Site manager flagged as 'go slow demolition' in log notes.",
-    reality: "This site is behind and the cause is clear — Ace Demolition is not performing. PGE has done their job well. The programme is being held back by one underperforming contractor who has had multiple opportunities to rectify. A formal intervention or replacement decision is needed this week.",
-    progress: {
-      planned: "Complete rubbish removal; place road base on main slab pad; under-slab plumbing rough-in; grease trap install.",
-      actual: "Under-slab plumbing and grease trap completed (PGE). Council inspection passed. Main slab pad area completed. Bulk earthworks ongoing. Sediment fencing installed. Road base NOT placed.",
-      gap: "Road base not placed (wet pad, Ace incomplete). Rubbish removal still not finished. Stockpile area on adjacent block running out of space."
-    },
-    issues: [
-      { issue: "Ace Demolition underperforming", cause: "1 man crew, no-shows, early departures", impact: "Rubbish removal incomplete — blocking road base and programme" },
-      { issue: "Pad too wet for road base", cause: "Rain events on multiple days", impact: "Road base delayed — compounded by Ace Demolition not clearing site" },
-      { issue: "Stockpile space running out", cause: "Bulk earthworks filling adjacent block", impact: "Soil management becoming a constraint" }
-    ],
-    repeatIssues: "Ace Demolition failure recorded on every working day this week (Mar 23, 24, 25, 26, 27). No-show Mar 27. Left early Mar 26. One man maximum all other days. Systemic contractor failure — action overdue.",
-    contractors: [
-      { name: "PGE Civil & Plumbing", status: "performing", status_label: "Performing", reason: "Under-slab plumbing, grease trap, and earthworks completed as planned." },
-      { name: "Guillotine Concreting", status: "adequate", status_label: "Adequate", reason: "Set up profiles for excavation and boxing — early stage, monitoring required." },
-      { name: "Ace Demolition", status: "underperforming", status_label: "Underperforming", reason: "Chronic under-resourcing. No-show. Early departures. Rubbish removal incomplete after multiple weeks." },
-      { name: "TFH", status: "adequate", status_label: "Adequate", reason: "Temporary fencing delivered and installed as required." },
-      { name: "Surveyor", status: "performing", status_label: "Performing", reason: "Main slab marked out on pad area." }
-    ],
-    score: 4, scoreLabel: "Problem",
-    next: [
-      "Formal written notice to Ace Demolition — complete rubbish removal by set hard date or face replacement.",
-      "Resolve stockpile space issue on adjacent block before earthworks are locked out.",
-      "Confirm revised road base programme with PGE once Ace clears the site."
-    ],
-    dataWarning: null
-  },
-
-  {
-    weekEnding: "4 April 2026",
-    project: "Pearl Energy Emerald",
-    status: "Critical Delay",
-    holding: "No daily logs submitted this week. Site activity cannot be confirmed.",
-    labour: "Unknown",
-    labourDetail: null,
-    reality: "Buildertrend export is empty — header page only. No works, trades, or programme status can be reported.",
-    progress: { planned: null, actual: null, gap: null },
-    issues: [],
-    repeatIssues: null,
-    contractors: [],
-    score: null, scoreLabel: null,
-    next: [
-      "Site manager to submit logs immediately or confirm nil activity in writing.",
-      "If site was not active this week, a nil-activity log must still be submitted."
-    ],
-    dataWarning: "No logs submitted this week. Buildertrend export is empty — header page only."
-  },
-
-  {
-    weekEnding: "4 April 2026",
-    project: "Pearl Energy Childers",
-    status: "On Track",
-    holding: "Brucon (concreter) not yet mobilised. Confirmed start 7/4/26 — this is the critical gate.",
-    labour: "Light",
-    labourDetail: "Red Dirt Civil — 1 man and 1 x 5T excavator all week. One late start on 31 Mar (arrived 15:00). Adequate for cleanup phase only.",
-    reality: "Childers is in good shape heading into next week. Earthworks are clean, surveyors have completed set-outs, and all reinforcement has arrived. The stormwater issue needs resolution before it blocks progress. Programme depends entirely on Brucon mobilising on 7/4/26 as confirmed.",
-    progress: {
-      planned: "Continue sieving stockpiled material; surveyors to finalise set outs; reinforcement deliveries.",
-      actual: "Sieving 90%+ complete. Surveyors completed final mark-up and gridlines (Mar 30). All reinforcement (tilt panels, shop slab, pad footings) delivered via Form Direct (Apr 2).",
-      gap: "No gap — planned works completed. Job is at a natural handover point waiting for Brucon."
-    },
-    issues: [
-      { issue: "Stormwater connection issue", cause: "Existing earthenware IL too high to connect", impact: "SGP report pending — resolution required before civil sign-off" },
-      { issue: "No existing water meter found", cause: "Water connected directly to supply", impact: "Compliance risk — SPG to advise on remedy" },
-      { issue: "Late start (Mar 31)", cause: "Red Dirt arrived 15:00", impact: "2.5hrs lost — low impact this week but a pattern to monitor" }
-    ],
-    repeatIssues: null,
-    contractors: [
-      { name: "Red Dirt Civil", status: "adequate", status_label: "Adequate", reason: "Completed sieving and cleanup as planned. One late start recorded." },
-      { name: "Cullen & Couper (Surveyors)", status: "performing", status_label: "Performing", reason: "Final mark-up and gridlines completed on schedule." },
-      { name: "SPG (Plumbing)", status: "monitor", status_label: "Monitor", reason: "Stormwater connection issue raised — remedy report not yet received." },
-      { name: "Brucon (Concreter)", status: "not_started", status_label: "Not Yet Started", reason: "Confirmed for 7/4/26. Critical path item." }
-    ],
-    score: 7, scoreLabel: "Friction",
-    next: [
-      "Confirm Brucon on site 7/4/26 — call and verify morning of.",
-      "Follow up SPG stormwater report — get the remedy in writing before concrete pours.",
-      "Check water meter compliance issue — flag to client/council if no water meter exists."
-    ],
-    dataWarning: null
-  },
-
-  {
-    weekEnding: "4 April 2026",
-    project: "Exus Williamstown",
-    status: "Unknown",
-    holding: "Cannot determine — no structured fields completed in any log this week. Wind on Mar 27 (37mph) likely impacted external cladding but was not formally recorded.",
-    labour: "Adequate",
-    labourDetail: "B&M 2–4 men (cladding), Roofers (lower roofs and box gutters), Summit 2 men (GyG rough-in), Provision 2 men (make good penos). Multiple trades active. Output unverifiable.",
-    reality: "Multiple trades on site and appear to be progressing. However K&K has no documented record of what was planned, completed, or whether issues exist. This is a documentation failure and a commercial and legal exposure.",
-    progress: {
-      planned: null,
-      actual: "Cladding progressing (B&M, battens and GyG panels). Lower roofs ongoing. Summit completing GyG rough-in. Provision making good penetrations.",
-      gap: "Cannot calculate — planned works not logged."
-    },
-    issues: [
-      { issue: "Structured fields all N/A", cause: "Logs not completed correctly", impact: "Cannot confirm programme, issues, or planned vs actual output" },
-      { issue: "High wind event (Mar 27)", cause: "37mph winds recorded", impact: "External cladding likely stopped — not confirmed in log" }
-    ],
-    repeatIssues: "Every log entry this week has all structured fields marked N/A. Systemic failure — Matthew Thomas is not completing Buildertrend logs correctly.",
-    contractors: [
-      { name: "B&M (Cladding)", status: "adequate", status_label: "Adequate", reason: "Active all week. Cladding and batten installation continuing." },
-      { name: "Roofers", status: "adequate", status_label: "Adequate", reason: "Lower roofs and box gutters progressing." },
-      { name: "Summit", status: "adequate", status_label: "Adequate", reason: "GyG rough-in progressing." },
-      { name: "Provision", status: "adequate", status_label: "Adequate", reason: "Make good to penetrations being completed." }
-    ],
-    score: 5, scoreLabel: "Friction",
-    next: [
-      "Matthew Thomas to complete structured fields in all daily logs — non-negotiable.",
-      "Confirm programme position — is the job on track, behind, or critical?",
-      "Log the Mar 27 wind event formally including what work was stopped and duration."
-    ],
-    dataWarning: "Daily logs not completed correctly — all structured fields N/A across every entry. Report accuracy reduced. Findings based on trade attendance notes only."
-  }
-
-];
-
-// ── HELPERS ───────────────────────────────────────────────────────────────────
+// ── HELPERS ──────────────────────────────────────────────────────────────────
 
 function mapStatus(s) {
   if (!s) return 'ontrack';
@@ -347,15 +309,31 @@ function mapStatus(s) {
 }
 
 function cssClass(s) {
-  return s === 'critical' ? 'critical' : s === 'behind' ? 'behind' : s === 'unknown' ? 'unknown' : 'ontrack';
+  if (s === 'critical') return 'critical';
+  if (s === 'behind')   return 'behind';
+  if (s === 'unknown')  return 'unknown';
+  return 'ontrack';
 }
 
 function iconChar(s) {
-  return s === 'critical' ? '!' : s === 'behind' ? '▲' : s === 'unknown' ? '?' : '✓';
+  if (s === 'critical') return '!';
+  if (s === 'behind')   return '▲';
+  if (s === 'unknown')  return '?';
+  return '✓';
 }
 
-function scoreClass(n) {
-  return !n ? '' : n >= 8 ? 'good' : n >= 5 ? 'friction' : 'problem';
+function priorityLabel(s) {
+  if (s === 'critical') return 'Critical';
+  if (s === 'behind')   return 'Urgent';
+  if (s === 'unknown')  return 'Clarify';
+  return 'Monitor';
+}
+
+function scoreClass(score) {
+  if (!score) return '';
+  if (score >= 8) return 'good';
+  if (score >= 5) return 'friction';
+  return 'problem';
 }
 
 function esc(str) {
@@ -369,8 +347,7 @@ function slugify(str) {
   return (str || '').toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 }
 
-// ── RENDER HELPERS ────────────────────────────────────────────────────────────
-
+// next can be string or array
 function renderNextActions(next) {
   if (!next) return '';
   const items = Array.isArray(next) ? next : [next];
@@ -381,22 +358,24 @@ function renderNextActions(next) {
     </div>`;
 }
 
-function renderProgress(p) {
-  if (!p || (!p.planned && !p.actual && !p.gap)) return '';
+function renderProgress(progress) {
+  if (!progress) return '';
+  const { planned, actual, gap } = progress;
+  if (!planned && !actual && !gap) return '';
   return `
     <div class="panel-sub">Progress</div>
     <div class="progress-grid">
       <div class="progress-cell">
         <span class="progress-cell-label">Planned</span>
-        <span class="progress-cell-value">${esc(p.planned) || '<em style="color:var(--text-3)">Not recorded</em>'}</span>
+        <span class="progress-cell-value">${esc(planned) || '<span style="color:var(--text-3);font-style:italic">Not recorded</span>'}</span>
       </div>
       <div class="progress-cell">
         <span class="progress-cell-label">Actual</span>
-        <span class="progress-cell-value">${esc(p.actual) || '<em style="color:var(--text-3)">Not recorded</em>'}</span>
+        <span class="progress-cell-value">${esc(actual) || '<span style="color:var(--text-3);font-style:italic">Not recorded</span>'}</span>
       </div>
       <div class="progress-cell gap-cell">
         <span class="progress-cell-label">Gap</span>
-        <span class="progress-cell-value">${esc(p.gap) || '—'}</span>
+        <span class="progress-cell-value">${esc(gap) || '—'}</span>
       </div>
     </div>`;
 }
@@ -409,27 +388,32 @@ function renderIssues(issues) {
       <table>
         <thead><tr><th>Issue</th><th>Cause</th><th>Impact</th></tr></thead>
         <tbody>
-          ${issues.map(i => `<tr><td>${esc(i.issue)}</td><td>${esc(i.cause)}</td><td>${esc(i.impact)}</td></tr>`).join('')}
+          ${issues.map(i => `
+            <tr>
+              <td>${esc(i.issue)}</td>
+              <td>${esc(i.cause)}</td>
+              <td>${esc(i.impact)}</td>
+            </tr>`).join('')}
         </tbody>
       </table>
     </div>`;
 }
 
-function renderRepeat(r) {
-  if (!r) return '';
+function renderRepeat(repeat) {
+  if (!repeat) return '';
   return `
     <div class="repeat-banner">
       <span class="repeat-banner-label">Repeat</span>
-      <span class="repeat-banner-text">${esc(r)}</span>
+      <span class="repeat-banner-text">${esc(repeat)}</span>
     </div>`;
 }
 
-function renderContractors(list) {
-  if (!list || !list.length) return '';
+function renderContractors(contractors) {
+  if (!contractors || !contractors.length) return '';
   return `
     <div class="panel-sub">Contractor Performance</div>
     <div class="contractor-list">
-      ${list.map(c => `
+      ${contractors.map(c => `
         <div class="contractor-row">
           <span class="contractor-status ${esc(c.status)}">${esc(c.status_label || c.status)}</span>
           <span class="contractor-name">${esc(c.name)}</span>
@@ -438,56 +422,70 @@ function renderContractors(list) {
     </div>`;
 }
 
-function renderScore(score, label, reason) {
+function renderScore(score, scoreLabel, scoreReason) {
   if (!score) return '';
   const sc = scoreClass(score);
   return `
     <div class="panel-sub">Snapshot Score</div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px 16px;">
       <div class="score-row">
-        <span class="score-num">${score}</span>
+        <span class="score-num" style="color:var(--text-1)">${score}</span>
         <span class="score-denom">/10</span>
-        ${label ? `<span class="score-label-badge ${sc}">${esc(label)}</span>` : ''}
-        ${reason ? `<span class="score-reason">${esc(reason)}</span>` : ''}
+        ${scoreLabel ? `<span class="score-label-badge ${sc}">${esc(scoreLabel)}</span>` : ''}
+        ${scoreReason ? `<span class="score-reason">${esc(scoreReason)}</span>` : ''}
       </div>
     </div>`;
 }
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
+// ── STATE ────────────────────────────────────────────────────────────────────
 
 let activeWeek = null;
 
 function getWeeks() {
-  const seen = new Set(), weeks = [];
-  weeklyData.forEach(j => { if (!seen.has(j.weekEnding)) { seen.add(j.weekEnding); weeks.push(j.weekEnding); } });
+  const seen = new Set();
+  const weeks = [];
+  weeklyData.forEach(j => {
+    if (!seen.has(j.weekEnding)) { seen.add(j.weekEnding); weeks.push(j.weekEnding); }
+  });
   return weeks;
 }
 
-function getJobs(w) {
-  return weeklyData.filter(j => j.weekEnding === w).map(j => ({ ...j, _status: mapStatus(j.status) }));
+function getJobs(weekEnding) {
+  return weeklyData
+    .filter(j => j.weekEnding === weekEnding)
+    .map(j => ({ ...j, _status: mapStatus(j.status) }));
 }
 
 function toggle(id) {
-  document.querySelectorAll('.selector-item').forEach(el => {
-    if (el.dataset.id === id) el.classList.toggle('open');
-    else el.classList.remove('open');
+  document.querySelectorAll('.selector-item').forEach(item => {
+    if (item.dataset.id === id) item.classList.toggle('open');
+    else item.classList.remove('open');
   });
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
+// ── RENDER ───────────────────────────────────────────────────────────────────
 
 function render() {
+  if (typeof weeklyData === 'undefined' || !weeklyData.length) {
+    document.getElementById('projectList').innerHTML =
+      '<p style="padding:20px;color:var(--text-3);font-family:IBM Plex Mono,monospace;font-size:12px;">No data loaded. Check data/weekly.js exists.</p>';
+    return;
+  }
+
   const weeks = getWeeks();
-  if (!weeks.length) return;
-  if (!activeWeek || !weeks.includes(activeWeek)) activeWeek = weeks[weeks.length - 1];
+  if (!activeWeek || !weeks.includes(activeWeek)) {
+    activeWeek = weeks[weeks.length - 1]; // default to most recent
+  }
 
   // Week tabs
-  document.getElementById('weekTabs').innerHTML = weeks.map(w =>
-    `<button class="week-tab ${w === activeWeek ? 'active' : ''}" onclick="setWeek('${w.replace(/'/g, "\\'")}')">${esc(w)}</button>`
-  ).join('');
+  document.getElementById('weekTabs').innerHTML = weeks.map(w => `
+    <button class="week-tab ${w === activeWeek ? 'active' : ''}" onclick="setWeek('${w.replace(/'/g, "\\'")}')">
+      w/e ${esc(w)}
+    </button>`).join('');
 
   const jobs = getJobs(activeWeek);
 
+  // Header
   document.getElementById('periodEnding').textContent = activeWeek;
   document.getElementById('footerDate').textContent = 'Period ending ' + activeWeek;
 
@@ -503,18 +501,36 @@ function render() {
     <div class="kpi critical"><span class="kpi-value">${critical}</span><span class="kpi-label">Critical</span></div>
     <div class="kpi behind"><span class="kpi-value">${behind}</span><span class="kpi-label">Behind</span></div>
     <div class="kpi ontrack"><span class="kpi-value">${ontrack}</span><span class="kpi-label">On Track</span></div>
-    <div class="kpi unknown"><span class="kpi-value">${unknown}</span><span class="kpi-label">Unknown</span></div>`;
+    <div class="kpi unknown"><span class="kpi-value">${unknown}</span><span class="kpi-label">Unknown</span></div>
+  `;
 
   // Accordion cards
   document.getElementById('projectList').innerHTML = jobs.map(j => {
     const s   = j._status;
     const css = cssClass(s);
     const id  = slugify(j.project);
-    const holding     = j.holding || j.what_is_holding || '';
-    const reality     = j.reality || j.site_reality || '';
-    const labour      = j.labour || j.labour_signal_label || '';
+
+    // holding — use j.holding (flat) or j.what_is_holding (rich)
+    const holding = j.holding || j.what_is_holding || '';
+
+    // reality — flat or rich
+    const reality = j.reality || j.site_reality || '';
+
+    // labour — flat or rich
+    const labour = j.labour || j.labour_signal_label || '';
     const labourDetail = j.labourDetail || j.labour_signal_detail || '';
-    const next        = j.next || j.next_week_focus || null;
+
+    // next — flat string or rich array
+    const next = j.next || j.next_week_focus || null;
+
+    // rich-only fields
+    const progress    = j.progress || null;
+    const issues      = j.issues || [];
+    const repeatIssue = j.repeatIssues || j.repeat_issues || null;
+    const contractors = j.contractors || [];
+    const score       = j.score || null;
+    const scoreLabel  = j.scoreLabel || j.score_label || null;
+    const scoreReason = j.score_reason || null;
     const dataWarning = j.dataWarning || j.data_quality_warning || null;
 
     return `
@@ -526,14 +542,20 @@ function render() {
             <div class="trigger-name">${esc(j.status)}</div>
           </div>
           <div class="trigger-right">
-            ${j.score ? `<span class="score-badge">${j.score}/10</span>` : ''}
+            ${score ? `<span class="score-badge">${score}/10</span>` : ''}
             <span class="status-pill ${css}">${esc(j.status)}</span>
             <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
         </button>
         <div class="panel">
           <div class="panel-inner">
-            ${dataWarning ? `<div class="data-warning"><span class="data-warning-icon">⚠</span><span class="data-warning-text">${esc(dataWarning)}</span></div>` : ''}
+
+            ${dataWarning ? `
+              <div class="data-warning">
+                <span class="data-warning-icon">⚠</span>
+                <span class="data-warning-text">${esc(dataWarning)}</span>
+              </div>` : ''}
+
             ${holding ? `
               <div class="blocker-row ${css}">
                 <span class="blocker-icon ${css}">${iconChar(s)}</span>
@@ -542,6 +564,7 @@ function render() {
                   <div class="blocker-text">${esc(holding)}</div>
                 </div>
               </div>` : ''}
+
             <div class="info-grid">
               <div class="info-row">
                 <span class="info-label">Position</span>
@@ -549,23 +572,45 @@ function render() {
               </div>
               <div class="info-row">
                 <span class="info-label">Labour</span>
-                <span class="info-value">${esc(labour)}${labourDetail ? `<br><span style="color:var(--text-3);font-size:12px">${esc(labourDetail)}</span>` : ''}</span>
+                <span class="info-value">
+                  ${esc(labour)}
+                  ${labourDetail ? `<br><span style="color:var(--text-3);font-size:12px">${esc(labourDetail)}</span>` : ''}
+                </span>
               </div>
             </div>
-            ${renderProgress(j.progress || null)}
-            ${renderIssues(j.issues || [])}
-            ${renderRepeat(j.repeatIssues || j.repeat_issues || null)}
-            ${renderContractors(j.contractors || [])}
-            ${renderScore(j.score || null, j.scoreLabel || j.score_label || null, j.score_reason || null)}
+
+            ${renderProgress(progress)}
+            ${renderIssues(issues)}
+            ${renderRepeat(repeatIssue)}
+            ${renderContractors(contractors)}
+            ${renderScore(score, scoreLabel, scoreReason)}
             ${renderNextActions(next)}
+
           </div>
         </div>
       </div>`;
-  }).join('');
+  }).join('\n');
+
+  // Risk table
+  document.getElementById('riskTableBody').innerHTML = jobs.map(j => {
+    const s   = j._status;
+    const css = cssClass(s);
+    const holding = j.holding || j.what_is_holding || '—';
+    const next = j.next || j.next_week_focus || '—';
+    const nextStr = Array.isArray(next) ? next[0] : next;
+    return `
+      <tr>
+        <td><span class="dot ${css}"></span>${esc(j.project)}</td>
+        <td>${esc(holding)}</td>
+        <td>${esc(nextStr)}</td>
+        <td><span class="status-pill ${css}">${priorityLabel(s)}</span></td>
+      </tr>`;
+  }).join('\n');
 }
 
-function setWeek(w) {
-  activeWeek = w;
+function setWeek(week) {
+  activeWeek = week;
+  // close all panels before re-render
   document.querySelectorAll('.selector-item').forEach(i => i.classList.remove('open'));
   render();
 }
@@ -577,8 +622,11 @@ render();
 // ── PASSWORD GATE ─────────────────────────────────────────────────────────────
 (function() {
   const PASSWORD = 'kk2026';
+
   if (sessionStorage.getItem('kk_auth') === '1') return;
+
   const overlay = document.createElement('div');
+  overlay.id = 'loginOverlay';
   overlay.style.cssText = 'position:fixed;inset:0;background:#F5F4F0;display:flex;align-items:center;justify-content:center;z-index:9999;font-family:Barlow,sans-serif;';
   overlay.innerHTML = `
     <div style="width:100%;max-width:360px;padding:0 24px;">
@@ -593,8 +641,10 @@ render();
       <div id="loginError" style="display:none;font-size:12px;color:#C8271E;margin-bottom:10px;font-family:'IBM Plex Mono',monospace;">Incorrect password.</div>
       <button id="loginBtn" style="width:100%;padding:13px;background:#1A1814;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;">Enter</button>
     </div>`;
+
   document.body.appendChild(overlay);
   setTimeout(() => document.getElementById('loginInput').focus(), 100);
+
   document.getElementById('loginBtn').addEventListener('click', function() {
     if (document.getElementById('loginInput').value === PASSWORD) {
       sessionStorage.setItem('kk_auth', '1');
