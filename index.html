@@ -1,399 +1,744 @@
-<!DOCTYP<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>K&K Industries Weekly Snapshot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
   <style>
-    * {
-      box-sizing: border-box;
+    /* ── Variables ──────────────────────────────────────── */
+    :root {
+      --bg:           #f0ede8;
+      --surface:      #ffffff;
+      --text:         #1a1a1a;
+      --muted:        #888073;
+      --border:       #e0dbd3;
+
+      --risk-bg:      #fff0f0;
+      --risk-border:  #e03131;
+      --risk-text:    #9b1a1a;
+      --risk-kpi-bg:  #e03131;
+
+      --monitor-bg:   #fffbf0;
+      --monitor-border: #e07b00;
+      --monitor-text: #8a4a00;
+      --monitor-kpi-bg: #e07b00;
+
+      --track-bg:     #f0fff4;
+      --track-border: #2d9c4a;
+      --track-text:   #1a5c2a;
+      --track-kpi-bg: #2d9c4a;
+
+      --unknown-bg:   #f5f5f5;
+      --unknown-border: #999;
+      --unknown-text: #555;
+      --unknown-kpi-bg: #999;
+
+      --labour-ok-bg:     #e8f5ff;
+      --labour-ok-text:   #1a5580;
+      --labour-low-bg:    #fff0e0;
+      --labour-low-text:  #8a4400;
+      --labour-unk-bg:    #f0f0f0;
+      --labour-unk-text:  #555;
+
+      --radius-card:  16px;
+      --radius-pill:  999px;
+      --shadow:       0 2px 12px rgba(0,0,0,0.07);
+      --shadow-hover: 0 6px 24px rgba(0,0,0,0.13);
+
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body:    'Barlow', sans-serif;
+      --font-mono:    'DM Mono', monospace;
     }
+
+    /* ── Reset ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
     }
 
+    /* ── Layout ─────────────────────────────────────────── */
     .wrap {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 24px 20px 48px;
     }
 
+    /* ── Header ─────────────────────────────────────────── */
     .header {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      background: #1a1a1a;
+      border-radius: var(--radius-card);
+      padding: 28px 28px 22px;
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .header-top {
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 39px,
+          rgba(255,255,255,0.03) 39px,
+          rgba(255,255,255,0.03) 40px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 39px,
+          rgba(255,255,255,0.03) 39px,
+          rgba(255,255,255,0.03) 40px
+        );
+      pointer-events: none;
+    }
+
+    .header-inner {
+      position: relative;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
+      align-items: flex-end;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
-    .title h1 {
-      margin: 0 0 6px 0;
-      font-size: 28px;
-      line-height: 1.1;
+    .company-name {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
     }
 
-    .title p {
-      margin: 0;
-      color: #6b7280;
-      font-size: 14px;
+    .header-meta {
+      text-align: right;
+      flex-shrink: 0;
     }
 
+    .meta-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .meta-value {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      margin-top: 2px;
+    }
+
+    .meta-value + .meta-label { margin-top: 10px; }
+
+    /* ── Controls ───────────────────────────────────────── */
     .controls {
-      margin-top: 18px;
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
       display: flex;
-      gap: 10px;
+      gap: 12px;
+      align-items: center;
       flex-wrap: wrap;
     }
 
     .search {
-      flex: 1 1 280px;
+      flex: 1 1 220px;
     }
 
     .search input {
       width: 100%;
-      padding: 14px 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      font-size: 15px;
-      background: #fff;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px; /* 16px prevents iOS zoom */
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.15s;
+      outline: none;
+    }
+
+    .search input:focus {
+      border-color: #1a1a1a;
+    }
+
+    .search input::placeholder {
+      color: var(--muted);
     }
 
     .filters {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
     .filter-btn {
-      border: none;
-      background: #e5e7eb;
-      color: #111827;
-      padding: 12px 14px;
-      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      padding: 9px 13px;
+      border-radius: 10px;
       cursor: pointer;
-      font-weight: 700;
-      font-size: 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: all 0.15s;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .filter-btn:hover {
+      border-color: #1a1a1a;
+      color: #1a1a1a;
     }
 
     .filter-btn.active {
-      background: #111827;
-      color: #ffffff;
+      background: #1a1a1a;
+      border-color: #1a1a1a;
+      color: #fff;
     }
 
+    .filter-btn .count {
+      font-size: 11px;
+      opacity: 0.65;
+    }
+
+    /* ── KPI Grid ───────────────────────────────────────── */
     .kpis {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .kpi-card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border-top: 4px solid transparent;
+      position: relative;
+      overflow: hidden;
     }
 
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .kpi-card.active-kpi::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: currentColor;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .kpi-card[data-kpi="atRisk"]    { border-top-color: var(--risk-kpi-bg); }
+    .kpi-card[data-kpi="onTrack"]   { border-top-color: var(--track-kpi-bg); }
+    .kpi-card[data-kpi="blindSpots"]{ border-top-color: var(--unknown-kpi-bg); }
+
     .kpi-label {
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      font-weight: 700;
+      letter-spacing: 0.07em;
+      margin-bottom: 10px;
     }
 
     .kpi-value {
-      font-size: 30px;
+      font-family: var(--font-display);
+      font-size: 48px;
       font-weight: 800;
       line-height: 1;
+      letter-spacing: -0.02em;
     }
 
+    .kpi-card[data-kpi="atRisk"]     .kpi-value { color: var(--risk-kpi-bg); }
+    .kpi-card[data-kpi="onTrack"]    .kpi-value { color: var(--track-kpi-bg); }
+    .kpi-card[data-kpi="blindSpots"] .kpi-value { color: var(--unknown-kpi-bg); }
+
+    /* ── Jobs Grid ──────────────────────────────────────── */
     .jobs-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
 
+    /* ── Job Card ───────────────────────────────────────── */
     .job-card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: fadeUp 0.25s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .job-card--at-risk   { border-left: 5px solid var(--risk-border);    background: var(--risk-bg); }
+    .job-card--monitor   { border-left: 5px solid var(--monitor-border);  background: var(--monitor-bg); }
+    .job-card--on-track  { border-left: 5px solid var(--track-border);    background: var(--track-bg); }
+    .job-card--unknown   { border-left: 5px solid var(--unknown-border);  background: var(--unknown-bg); }
+
+    .job-card-inner {
+      padding: 20px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
     .job-head {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 14px;
+      gap: 10px;
     }
 
     .job-name {
-      margin: 0;
-      font-size: 20px;
-      line-height: 1.2;
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.1;
+      min-width: 0; /* prevents overflow */
     }
 
+    /* ── Badges ─────────────────────────────────────────── */
     .badge {
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
+      flex-shrink: 0;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
       white-space: nowrap;
     }
 
-    .badge.red {
-      background: #fee2e2;
-      color: #991b1b;
+    .badge--risk    { background: var(--risk-border);    color: #fff; }
+    .badge--monitor { background: var(--monitor-border); color: #fff; }
+    .badge--track   { background: var(--track-border);   color: #fff; }
+    .badge--unknown { background: var(--unknown-border); color: #fff; }
+
+    .labour-badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
     }
 
-    .badge.amber {
-      background: #fef3c7;
-      color: #92400e;
-    }
+    .labour--adequate    { background: var(--labour-ok-bg);  color: var(--labour-ok-text); }
+    .labour--insufficient{ background: var(--labour-low-bg); color: var(--labour-low-text); }
+    .labour--unknown     { background: var(--labour-unk-bg); color: var(--labour-unk-text); }
 
-    .badge.green {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .badge.gray {
-      background: #e5e7eb;
-      color: #374151;
-    }
-
-    .job-row {
-      margin-bottom: 12px;
-    }
+    /* ── Job Rows ───────────────────────────────────────── */
+    .job-row { display: flex; flex-direction: column; gap: 4px; }
 
     .job-label {
-      font-size: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #6b7280;
-      font-weight: 800;
-      margin-bottom: 4px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 500;
     }
 
     .job-value {
-      font-size: 15px;
-      line-height: 1.5;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text);
     }
 
+    /* ── Next Action (highlighted) ──────────────────────── */
+    .next-action-block {
+      margin-top: auto;
+      background: rgba(0,0,0,0.04);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .next-action-block .job-label { color: var(--text); font-weight: 700; }
+    .next-action-block .job-value { font-weight: 600; font-size: 14px; }
+
+    /* ── Empty State ────────────────────────────────────── */
     .empty-state {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 24px;
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 36px;
       text-align: center;
-      color: #6b7280;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      box-shadow: var(--shadow);
     }
 
-    @media (max-width: 900px) {
-      .kpis {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    /* ── Footer ─────────────────────────────────────────── */
+    .footer {
+      margin-top: 36px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
 
-      .jobs-grid {
-        grid-template-columns: 1fr;
-      }
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .kpis      { grid-template-columns: repeat(2, 1fr); }
+      .jobs-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 600px) {
-      .wrap {
-        padding: 14px;
-      }
+      .wrap       { padding: 14px 14px 40px; }
+      .header     { padding: 20px 18px 18px; }
+      .kpi-value  { font-size: 40px; }
+      .controls   { flex-direction: column; align-items: stretch; }
+      .filters    { justify-content: stretch; }
+      .filter-btn { flex: 1 1 auto; justify-content: center; }
+    }
 
-      .header,
+    /* ── Print ──────────────────────────────────────────── */
+    @media print {
+      body        { background: #fff; }
+      .controls   { display: none; }
+      .header     { background: #1a1a1a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .kpi-card,
-      .job-card,
-      .empty-state {
-        border-radius: 14px;
-      }
+      .job-card   { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+      .jobs-grid  { grid-template-columns: repeat(2, 1fr); }
+      .footer     { margin-top: 20px; }
 
-      .title h1 {
-        font-size: 24px;
-      }
-
-      .kpi-value {
-        font-size: 26px;
-      }
-
-      .controls {
-        flex-direction: column;
-      }
-
-      .filters {
-        width: 100%;
-      }
-
-      .filter-btn {
-        flex: 1 1 auto;
-        text-align: center;
+      .job-card--at-risk,
+      .job-card--monitor,
+      .job-card--on-track,
+      .job-card--unknown {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="header">
-      <div class="header-top">
-        <div class="title">
-          <h1 id="companyName"></h1>
-          <p>
-            Week Ending: <span id="weekEnding"></span><br>
-            Last Updated: <span id="lastUpdated"></span>
-          </p>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <h1 class="company-name" id="companyName"></h1>
+        <div class="header-meta">
+          <div class="meta-label">Week Ending</div>
+          <div class="meta-value" id="weekEnding"></div>
+          <div class="meta-label">Last Updated</div>
+          <div class="meta-value" id="lastUpdated"></div>
         </div>
       </div>
+    </header>
 
-      <div class="controls">
-        <div class="search">
-          <input type="text" id="searchInput" placeholder="Search job name..." />
-        </div>
-
-        <div class="filters">
-          <button class="filter-btn active" data-filter="All">All</button>
-          <button class="filter-btn" data-filter="At Risk">At Risk</button>
-          <button class="filter-btn" data-filter="Monitor">Monitor</button>
-          <button class="filter-btn" data-filter="On Track">On Track</button>
-          <button class="filter-btn" data-filter="Unknown">Unknown</button>
-        </div>
-      </div>
-    </div>
-
+    <!-- KPIs -->
     <div class="kpis">
-      <div class="kpi-card">
+      <div class="kpi-card" data-kpi="totalJobs">
         <div class="kpi-label">Total Jobs</div>
-        <div class="kpi-value" id="totalJobs"></div>
+        <div class="kpi-value" id="kpiTotal"></div>
       </div>
-      <div class="kpi-card">
+      <div class="kpi-card" data-kpi="atRisk" role="button" tabindex="0" aria-label="Filter by At Risk">
         <div class="kpi-label">At Risk</div>
-        <div class="kpi-value" id="atRisk"></div>
+        <div class="kpi-value" id="kpiAtRisk"></div>
       </div>
-      <div class="kpi-card">
+      <div class="kpi-card" data-kpi="onTrack" role="button" tabindex="0" aria-label="Filter by On Track">
         <div class="kpi-label">On Track</div>
-        <div class="kpi-value" id="onTrack"></div>
+        <div class="kpi-value" id="kpiOnTrack"></div>
       </div>
-      <div class="kpi-card">
+      <div class="kpi-card" data-kpi="blindSpots" role="button" tabindex="0" aria-label="Filter by Unknown">
         <div class="kpi-label">Blind Spots</div>
-        <div class="kpi-value" id="blindSpots"></div>
+        <div class="kpi-value" id="kpiBlindSpots"></div>
       </div>
     </div>
 
+    <!-- Controls -->
+    <div class="controls">
+      <div class="search">
+        <input type="text" id="searchInput" placeholder="Search job name…" autocomplete="off" />
+      </div>
+      <div class="filters" id="filterButtons"></div>
+    </div>
+
+    <!-- Jobs -->
     <div id="jobsContainer" class="jobs-grid"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      Produced by Thirty Petals &nbsp;·&nbsp; Confidential
+    </footer>
+
   </div>
 
-  <script src="data/weekly.js"></script>
+  <script src="data.js"></script>
   <script>
-    const companyNameEl = document.getElementById("companyName");
-    const weekEndingEl = document.getElementById("weekEnding");
-    const lastUpdatedEl = document.getElementById("lastUpdated");
-    const totalJobsEl = document.getElementById("totalJobs");
-    const atRiskEl = document.getElementById("atRisk");
-    const onTrackEl = document.getElementById("onTrack");
-    const blindSpotsEl = document.getElementById("blindSpots");
-    const jobsContainer = document.getElementById("jobsContainer");
-    const searchInput = document.getElementById("searchInput");
-    const filterButtons = document.querySelectorAll(".filter-btn");
+    /* ── Helpers ──────────────────────────────────────── */
+
+    // Escape strings to prevent XSS in innerHTML contexts
+    function esc(str) {
+      const div = document.createElement("div");
+      div.textContent = String(str ?? "");
+      return div.innerHTML;
+    }
+
+    function el(tag, attrs = {}, ...children) {
+      const node = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) {
+        if (k === "className") node.className = v;
+        else if (k === "textContent") node.textContent = v;
+        else node.setAttribute(k, v);
+      }
+      children.forEach(c => {
+        if (typeof c === "string") node.appendChild(document.createTextNode(c));
+        else if (c) node.appendChild(c);
+      });
+      return node;
+    }
+
+    /* ── Computed KPIs ────────────────────────────────── */
+
+    function computeKPIs(jobs) {
+      return {
+        totalJobs:   jobs.length,
+        atRisk:      jobs.filter(j => j.status === "At Risk").length,
+        onTrack:     jobs.filter(j => j.status === "On Track").length,
+        blindSpots:  jobs.filter(j => j.status === "Unknown").length,
+      };
+    }
+
+    /* ── Status / Labour mappings ─────────────────────── */
+
+    const STATUS_MAP = {
+      "At Risk":  { cardClass: "job-card--at-risk",  badgeClass: "badge--risk",    label: "At Risk" },
+      "Monitor":  { cardClass: "job-card--monitor",  badgeClass: "badge--monitor", label: "Monitor" },
+      "On Track": { cardClass: "job-card--on-track", badgeClass: "badge--track",   label: "On Track" },
+      "Unknown":  { cardClass: "job-card--unknown",  badgeClass: "badge--unknown", label: "Unknown" },
+    };
+
+    const LABOUR_MAP = {
+      "Adequate":     { cls: "labour--adequate",     label: "Adequate" },
+      "Insufficient": { cls: "labour--insufficient", label: "Insufficient" },
+      "Unknown":      { cls: "labour--unknown",      label: "Unknown" },
+    };
+
+    function labourInfo(val) {
+      return LABOUR_MAP[val] ?? { cls: "labour--unknown", label: val ?? "Unknown" };
+    }
+
+    const FILTER_STATUS = {
+      "All":      null,
+      "At Risk":  "At Risk",
+      "Monitor":  "Monitor",
+      "On Track": "On Track",
+      "Unknown":  "Unknown",
+    };
+
+    /* ── State ────────────────────────────────────────── */
 
     let currentFilter = "All";
 
-    function getBadgeClass(status) {
-      const s = status.toLowerCase();
-
-      if (s.includes("risk") || s.includes("behind")) return "red";
-      if (s.includes("monitor")) return "amber";
-      if (s.includes("track")) return "green";
-      return "gray";
-    }
+    /* ── Render: Header ───────────────────────────────── */
 
     function renderHeader() {
-      companyNameEl.textContent = snapshotData.company;
-      weekEndingEl.textContent = snapshotData.weekEnding;
-      lastUpdatedEl.textContent = snapshotData.lastUpdated;
-
-      totalJobsEl.textContent = snapshotData.kpis.totalJobs;
-      atRiskEl.textContent = snapshotData.kpis.atRisk;
-      onTrackEl.textContent = snapshotData.kpis.onTrack;
-      blindSpotsEl.textContent = snapshotData.kpis.blindSpots;
+      document.getElementById("companyName").textContent = snapshotData.company;
+      document.getElementById("weekEnding").textContent  = snapshotData.weekEnding;
+      document.getElementById("lastUpdated").textContent = snapshotData.lastUpdated;
     }
 
-    function renderJobs() {
-      const searchTerm = searchInput.value.trim().toLowerCase();
+    /* ── Render: KPIs ─────────────────────────────────── */
 
-      const filteredJobs = snapshotData.jobs.filter(job => {
-        const matchesSearch = job.name.toLowerCase().includes(searchTerm);
-        const matchesFilter = currentFilter === "All" || job.status === currentFilter;
-        return matchesSearch && matchesFilter;
+    function renderKPIs(kpis) {
+      document.getElementById("kpiTotal").textContent     = kpis.totalJobs;
+      document.getElementById("kpiAtRisk").textContent    = kpis.atRisk;
+      document.getElementById("kpiOnTrack").textContent   = kpis.onTrack;
+      document.getElementById("kpiBlindSpots").textContent = kpis.blindSpots;
+    }
+
+    /* ── Render: Filter buttons ───────────────────────── */
+
+    function renderFilters() {
+      const container = document.getElementById("filterButtons");
+      container.innerHTML = "";
+
+      Object.keys(FILTER_STATUS).forEach(label => {
+        const statusVal = FILTER_STATUS[label];
+        const count = statusVal === null
+          ? snapshotData.jobs.length
+          : snapshotData.jobs.filter(j => j.status === statusVal).length;
+
+        const btn = el("button", {
+          className: "filter-btn" + (currentFilter === label ? " active" : ""),
+          "data-filter": label,
+          "aria-pressed": currentFilter === label ? "true" : "false",
+        });
+
+        btn.appendChild(document.createTextNode(label));
+        const countSpan = el("span", { className: "count" }, `(${count})`);
+        btn.appendChild(countSpan);
+
+        btn.addEventListener("click", () => {
+          currentFilter = label;
+          renderFilters();
+          renderJobs();
+          syncKPIActive();
+        });
+
+        container.appendChild(btn);
+      });
+    }
+
+    /* ── KPI cards → filter interaction ──────────────── */
+
+    const KPI_FILTER_MAP = {
+      atRisk:     "At Risk",
+      onTrack:    "On Track",
+      blindSpots: "Unknown",
+      totalJobs:  "All",
+    };
+
+    function syncKPIActive() {
+      document.querySelectorAll(".kpi-card").forEach(card => {
+        const mapped = KPI_FILTER_MAP[card.dataset.kpi];
+        card.classList.toggle("active-kpi", mapped === currentFilter);
+      });
+    }
+
+    document.querySelectorAll(".kpi-card[role='button']").forEach(card => {
+      const activate = () => {
+        currentFilter = KPI_FILTER_MAP[card.dataset.kpi] ?? "All";
+        renderFilters();
+        renderJobs();
+        syncKPIActive();
+      };
+      card.addEventListener("click", activate);
+      card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") activate(); });
+    });
+
+    /* ── Render: Job cards ────────────────────────────── */
+
+    function renderJobs() {
+      const container = document.getElementById("jobsContainer");
+      const search    = document.getElementById("searchInput").value.trim().toLowerCase();
+      const status    = FILTER_STATUS[currentFilter];
+
+      const filtered = snapshotData.jobs.filter(job => {
+        const matchSearch = job.name.toLowerCase().includes(search);
+        const matchStatus = status === null || job.status === status;
+        return matchSearch && matchStatus;
       });
 
-      if (filteredJobs.length === 0) {
-        jobsContainer.innerHTML = `
-          <div class="empty-state" style="grid-column: 1 / -1;">
-            No jobs match your search or filter.
-          </div>
-        `;
+      container.innerHTML = "";
+
+      if (filtered.length === 0) {
+        container.appendChild(
+          el("div", { className: "empty-state" }, "No jobs match your search or filter.")
+        );
         return;
       }
 
-      jobsContainer.innerHTML = filteredJobs.map(job => `
-        <div class="job-card">
-          <div class="job-head">
-            <h2 class="job-name">${job.name}</h2>
-            <span class="badge ${getBadgeClass(job.status)}">${job.status}</span>
-          </div>
+      filtered.forEach((job, i) => {
+        const info   = STATUS_MAP[job.status] ?? STATUS_MAP["Unknown"];
+        const labour = labourInfo(job.labour);
 
-          <div class="job-row">
-            <div class="job-label">Holding Up</div>
-            <div class="job-value">${job.holdingUp}</div>
-          </div>
+        const card = el("div", {
+          className: `job-card ${info.cardClass}`,
+          style: `animation-delay: ${i * 50}ms`
+        });
 
-          <div class="job-row">
-            <div class="job-label">Labour</div>
-            <div class="job-value">${job.labour}</div>
-          </div>
+        const inner = el("div", { className: "job-card-inner" });
 
-          <div class="job-row">
-            <div class="job-label">Reality</div>
-            <div class="job-value">${job.reality}</div>
-          </div>
+        // Head: name + status badge
+        const head  = el("div", { className: "job-head" });
+        const name  = el("h2",  { className: "job-name", textContent: job.name });
+        const badge = el("span", { className: `badge ${info.badgeClass}`, textContent: info.label });
+        head.appendChild(name);
+        head.appendChild(badge);
+        inner.appendChild(head);
 
-          <div class="job-row">
-            <div class="job-label">Next Action</div>
-            <div class="job-value">${job.nextAction}</div>
-          </div>
-        </div>
-      `).join("");
+        // Holding Up
+        inner.appendChild(jobRow("Holding Up", job.holdingUp));
+
+        // Labour
+        const labourRow = el("div", { className: "job-row" });
+        labourRow.appendChild(el("div", { className: "job-label", textContent: "Labour" }));
+        const labourVal = el("div", { className: "job-value" });
+        labourVal.appendChild(el("span", { className: `labour-badge ${labour.cls}`, textContent: labour.label }));
+        labourRow.appendChild(labourVal);
+        inner.appendChild(labourRow);
+
+        // Reality
+        inner.appendChild(jobRow("Site Reality", job.reality));
+
+        // Next Action (highlighted)
+        const na = el("div", { className: "next-action-block" });
+        na.appendChild(el("div", { className: "job-label", textContent: "Next Action" }));
+        na.appendChild(el("div", { className: "job-value", textContent: job.nextAction }));
+        inner.appendChild(na);
+
+        card.appendChild(inner);
+        container.appendChild(card);
+      });
     }
 
-    searchInput.addEventListener("input", renderJobs);
+    function jobRow(label, value) {
+      const row = el("div", { className: "job-row" });
+      row.appendChild(el("div", { className: "job-label", textContent: label }));
+      row.appendChild(el("div", { className: "job-value", textContent: value }));
+      return row;
+    }
 
-    filterButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        filterButtons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-        currentFilter = button.dataset.filter;
-        renderJobs();
-      });
-    });
+    /* ── Search ───────────────────────────────────────── */
 
-    renderHeader();
-    renderJobs();
+    document.getElementById("searchInput").addEventListener("input", renderJobs);
+
+    /* ── Init ─────────────────────────────────────────── */
+
+    function init() {
+      if (!window.snapshotData) {
+        document.getElementById("jobsContainer").innerHTML =
+          '<div class="empty-state">Error: snapshot data could not be loaded.</div>';
+        return;
+      }
+      const kpis = computeKPIs(snapshotData.jobs);
+      renderHeader();
+      renderKPIs(kpis);
+      renderFilters();
+      renderJobs();
+    }
+
+    init();
   </script>
 </body>
 </html>
