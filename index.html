@@ -6,9 +6,7 @@
   <title>Project Dashboard</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -105,17 +103,9 @@
       border-left: 6px solid #cbd5e1;
     }
 
-    .card.behind {
-      border-left-color: #d32f2f;
-    }
-
-    .card.track {
-      border-left-color: #2e7d32;
-    }
-
-    .card.unknown {
-      border-left-color: #9ca3af;
-    }
+    .card.behind { border-left-color: #d32f2f; }
+    .card.track { border-left-color: #2e7d32; }
+    .card.unknown { border-left-color: #9ca3af; }
 
     .card-header {
       display: flex;
@@ -185,32 +175,18 @@
     }
 
     @media (max-width: 900px) {
-      .card-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .card-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 600px) {
-      .wrap {
-        padding: 14px;
-      }
-
-      .topbar h1 {
-        font-size: 22px;
-      }
-
+      .wrap { padding: 14px; }
+      .topbar h1 { font-size: 22px; }
       .card-header {
         flex-direction: column;
         align-items: flex-start;
       }
-
-      .status-badge {
-        align-self: flex-start;
-      }
+      .status-badge { align-self: flex-start; }
     }
   </style>
 </head>
@@ -268,147 +244,109 @@
   </div>
 
   <script src="data.js"></script>
-
   <script>
-    document.getElementById("dashboardTitle").textContent = dashboard.title;
-    document.getElementById("dashboardSubtitle").textContent =
-      dashboard.client + " | Week Ending " + dashboard.weekEnding;
-    document.getElementById("footerNote").textContent = dashboard.note || "";
-
-    const jobs = dashboard.jobs || [];
+    const titleEl = document.getElementById("dashboardTitle");
+    const subtitleEl = document.getElementById("dashboardSubtitle");
+    const footerEl = document.getElementById("footerNote");
     const searchInput = document.getElementById("searchInput");
 
-    function getCardClass(status) {
-      if (status === "Behind" || status === "At Risk") return "behind";
-      if (status === "On Track") return "track";
-      return "unknown";
-    }
+    const safeDashboard = typeof dashboard !== "undefined" ? dashboard : null;
 
-    function getBadgeClass(status) {
-      if (status === "Behind" || status === "At Risk") return "status-behind";
-      if (status === "On Track") return "status-track";
-      return "status-unknown";
-    }
+    if (!safeDashboard) {
+      subtitleEl.textContent = "data.js not loading";
+      footerEl.textContent = "Check file name, script path, or errors in data.js";
+    } else {
+      titleEl.textContent = safeDashboard.title;
+      subtitleEl.textContent = safeDashboard.client + " | Week Ending " + safeDashboard.weekEnding;
+      footerEl.textContent = safeDashboard.note || "";
 
-    function createJobCard(job) {
-      const card = document.createElement("div");
-      card.className = "card " + getCardClass(job.status);
+      const jobs = safeDashboard.jobs || [];
 
-      card.innerHTML = `
-        <div class="card-header">
-          <div>
-            <div class="project-name">${job.name}</div>
-            <div class="project-meta">📍 ${job.location} | 🧱 ${job.stage}</div>
-          </div>
-          <div class="status-badge ${getBadgeClass(job.status)}">${job.status}</div>
-        </div>
-
-        <div class="detail"><strong>Holding Up:</strong> ${job.holding}</div>
-        <div class="detail"><strong>Labour:</strong> ${job.labour}</div>
-        <div class="detail"><strong>Reality:</strong> ${job.reality}</div>
-        <div class="detail"><strong>Next Action:</strong> ${job.action}</div>
-      `;
-
-      return card;
-    }
-
-    function renderSection(jobList, containerId, emptyMessage) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
-
-      if (!jobList.length) {
-        container.innerHTML = `<div class="empty-card">${emptyMessage}</div>`;
-        return;
+      function getCardClass(status) {
+        if (status === "Behind" || status === "At Risk") return "behind";
+        if (status === "On Track") return "track";
+        return "unknown";
       }
 
-      jobList.forEach(job => {
-        container.appendChild(createJobCard(job));
+      function getBadgeClass(status) {
+        if (status === "Behind" || status === "At Risk") return "status-behind";
+        if (status === "On Track") return "status-track";
+        return "status-unknown";
+      }
+
+      function createJobCard(job) {
+        const card = document.createElement("div");
+        card.className = "card " + getCardClass(job.status);
+
+        card.innerHTML = `
+          <div class="card-header">
+            <div>
+              <div class="project-name">${job.name}</div>
+              <div class="project-meta">📍 ${job.location} | 🧱 ${job.stage}</div>
+            </div>
+            <div class="status-badge ${getBadgeClass(job.status)}">${job.status}</div>
+          </div>
+          <div class="detail"><strong>Holding Up:</strong> ${job.holding}</div>
+          <div class="detail"><strong>Labour:</strong> ${job.labour}</div>
+          <div class="detail"><strong>Reality:</strong> ${job.reality}</div>
+          <div class="detail"><strong>Next Action:</strong> ${job.action}</div>
+        `;
+
+        return card;
+      }
+
+      function renderSection(jobList, containerId, emptyMessage) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+
+        if (!jobList.length) {
+          container.innerHTML = `<div class="empty-card">${emptyMessage}</div>`;
+          return;
+        }
+
+        jobList.forEach(job => container.appendChild(createJobCard(job)));
+      }
+
+      function renderAll(filterText = "") {
+        const filter = filterText.trim().toLowerCase();
+
+        const filteredJobs = jobs.filter(job => {
+          const combinedText = [
+            job.name,
+            job.location,
+            job.stage,
+            job.status,
+            job.holding,
+            job.labour,
+            job.reality,
+            job.action
+          ].join(" ").toLowerCase();
+
+          return combinedText.includes(filter);
+        });
+
+        const riskJobs = filteredJobs.filter(job => job.status === "Behind" || job.status === "At Risk");
+        const trackJobs = filteredJobs.filter(job => job.status === "On Track");
+        const unknownJobs = filteredJobs.filter(job => job.status === "Unknown" || job.status === "Monitor");
+
+        document.getElementById("kpiJobs").textContent = filteredJobs.length;
+        document.getElementById("kpiRisk").textContent = riskJobs.length;
+        document.getElementById("kpiTrack").textContent = trackJobs.length;
+        document.getElementById("kpiBlind").textContent = filteredJobs.filter(job =>
+          job.dataQuality === "Limited" || job.status === "Unknown"
+        ).length;
+
+        renderSection(riskJobs, "riskJobs", "No at risk jobs found.");
+        renderSection(trackJobs, "trackJobs", "No on track jobs found.");
+        renderSection(unknownJobs, "unknownJobs", "No unknown or limited visibility jobs found.");
+      }
+
+      renderAll();
+
+      searchInput.addEventListener("input", function (e) {
+        renderAll(e.target.value);
       });
     }
-
-    function renderAll(filterText = "") {
-      const filter = filterText.trim().toLowerCase();
-
-      const filteredJobs = jobs.filter(job => {
-        const combinedText = [
-          job.name,
-          job.location,
-          job.stage,
-          job.status,
-          job.holding,
-          job.labour,
-          job.reality,
-          job.action
-        ].join(" ").toLowerCase();
-
-        return combinedText.includes(filter);
-      });
-
-      const riskJobs = filteredJobs.filter(job =>
-        job.status === "Behind" || job.status === "At Risk"
-      );
-
-      const trackJobs = filteredJobs.filter(job =>
-        job.status === "On Track"
-      );
-
-      const unknownJobs = filteredJobs.filter(job =>
-        job.status === "Unknown" || job.status === "Monitor"
-      );
-
-      document.getElementById("kpiJobs").textContent = filteredJobs.length;
-      document.getElementById("kpiRisk").textContent = riskJobs.length;
-      document.getElementById("kpiTrack").textContent = trackJobs.length;
-      document.getElementById("kpiBlind").textContent = filteredJobs.filter(job =>
-        job.dataQuality === "Limited" || job.status === "Unknown"
-      ).length;
-
-      renderSection(riskJobs, "riskJobs", "No at risk jobs found.");
-      renderSection(trackJobs, "trackJobs", "No on track jobs found.");
-      renderSection(unknownJobs, "unknownJobs", "No unknown or limited visibility jobs found.");
-    }
-
-    renderAll();
-
-    searchInput.addEventListener("input", function (e) {
-      renderAll(e.target.value);
-    });
   </script>
-</body>
-</html>
-
-<body>
-
-<div class="wrap">
-  <h1>Weekly Builder Snapshot</h1>
-  <div id="jobs"></div>
-</div>
-
-<script src="data/weekly.js"></script>
-
-<script>
-  const container = document.getElementById("jobs");
-
-  jobs.forEach(job => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    let statusClass = "grey";
-    if (job.status.includes("Behind")) statusClass = "red";
-    else if (job.status.includes("Track")) statusClass = "green";
-
-    card.innerHTML = `
-      <div class="title">${job.name}</div>
-      <div class="status ${statusClass}">Status: ${job.status}</div>
-      <p><strong>Holding Up:</strong> ${job.holding}</p>
-      <p><strong>Labour:</strong> ${job.labour}</p>
-      <p><strong>Reality:</strong> ${job.reality}</p>
-      <p><strong>Next Action:</strong> ${job.action}</p>
-    `;
-
-    container.appendChild(card);
-  });
-</script>
-
 </body>
 </html>
