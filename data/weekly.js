@@ -2,12 +2,6 @@ const snapshotData = {
   company: "K&K Industries",
   weekEnding: "1 April 2026",
   lastUpdated: "5 April 2026",
-  kpis: {
-    totalJobs: 4,
-    atRisk: 1,
-    onTrack: 0,
-    blindSpots: 2
-  },
   jobs: [
     {
       name: "Caltex D'Aguilar",
@@ -29,7 +23,7 @@ const snapshotData = {
       name: "EXUS Williamstown",
       status: "Unknown",
       holdingUp: "No structured logs",
-      labour: "Active trades onsite",
+      labour: "Adequate",
       reality: "Work progressing but programme position unclear.",
       nextAction: "Complete logs and confirm programme."
     },
