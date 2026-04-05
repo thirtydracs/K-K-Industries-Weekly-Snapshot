@@ -1,51 +1,381 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Weekly Builder Snapshot</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Dashboard</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
       margin: 0;
-      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f3f5f7;
+      color: #1f2933;
     }
 
     .wrap {
-      max-width: 900px;
-      margin: auto;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
     }
 
-    h1 {
-      margin-bottom: 20px;
+    .topbar {
+      background: #0f1720;
+      color: #fff;
+      border-radius: 14px;
+      padding: 22px 20px;
+      margin-bottom: 18px;
+    }
+
+    .topbar h1 {
+      margin: 0 0 8px 0;
+      font-size: 28px;
+    }
+
+    .topbar p {
+      margin: 0;
+      color: #c9d2dc;
+      font-size: 14px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 18px 0 18px;
+    }
+
+    .kpi {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .search-wrap {
+      margin-bottom: 24px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #d0d7de;
+      border-radius: 12px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin: 0 0 12px 0;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
     }
 
     .card {
       background: #fff;
+      border-radius: 14px;
       padding: 18px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 6px solid #cbd5e1;
     }
 
-    .title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 6px;
+    .card.behind {
+      border-left-color: #d32f2f;
     }
 
-    .status {
-      font-weight: bold;
+    .card.track {
+      border-left-color: #2e7d32;
+    }
+
+    .card.unknown {
+      border-left-color: #9ca3af;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
       margin-bottom: 10px;
     }
 
-    .red { color: #d32f2f; }
-    .green { color: #2e7d32; }
-    .grey { color: #555; }
-  </style>
+    .project-name {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0 0 6px 0;
+    }
 
+    .project-meta {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .status-badge {
+      white-space: nowrap;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .status-behind {
+      background: #fde8e8;
+      color: #b42318;
+    }
+
+    .status-track {
+      background: #e8f5e9;
+      color: #1b5e20;
+    }
+
+    .status-unknown {
+      background: #edf2f7;
+      color: #4b5563;
+    }
+
+    .detail {
+      margin: 10px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .detail strong {
+      display: inline-block;
+      min-width: 95px;
+    }
+
+    .empty-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      color: #6b7280;
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 900px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .wrap {
+        padding: 14px;
+      }
+
+      .topbar h1 {
+        font-size: 22px;
+      }
+
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .status-badge {
+        align-self: flex-start;
+      }
+    }
+  </style>
 </head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <h1 id="dashboardTitle">Project Dashboard</h1>
+      <p id="dashboardSubtitle"></p>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Jobs</div>
+        <div class="kpi-value" id="kpiJobs">0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">At Risk</div>
+        <div class="kpi-value" id="kpiRisk">0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">On Track</div>
+        <div class="kpi-value" id="kpiTrack">0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Blind Spots</div>
+        <div class="kpi-value" id="kpiBlind">0</div>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <input
+        type="text"
+        id="searchInput"
+        class="search-box"
+        placeholder="Search project, location, or stage..."
+      />
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">At Risk</h2>
+      <div class="card-grid" id="riskJobs"></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">On Track</h2>
+      <div class="card-grid" id="trackJobs"></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Unknown / Limited Visibility</h2>
+      <div class="card-grid" id="unknownJobs"></div>
+    </div>
+
+    <div class="footer-note" id="footerNote"></div>
+  </div>
+
+  <script src="data.js"></script>
+
+  <script>
+    document.getElementById("dashboardTitle").textContent = dashboard.title;
+    document.getElementById("dashboardSubtitle").textContent =
+      dashboard.client + " | Week Ending " + dashboard.weekEnding;
+    document.getElementById("footerNote").textContent = dashboard.note || "";
+
+    const jobs = dashboard.jobs || [];
+    const searchInput = document.getElementById("searchInput");
+
+    function getCardClass(status) {
+      if (status === "Behind" || status === "At Risk") return "behind";
+      if (status === "On Track") return "track";
+      return "unknown";
+    }
+
+    function getBadgeClass(status) {
+      if (status === "Behind" || status === "At Risk") return "status-behind";
+      if (status === "On Track") return "status-track";
+      return "status-unknown";
+    }
+
+    function createJobCard(job) {
+      const card = document.createElement("div");
+      card.className = "card " + getCardClass(job.status);
+
+      card.innerHTML = `
+        <div class="card-header">
+          <div>
+            <div class="project-name">${job.name}</div>
+            <div class="project-meta">📍 ${job.location} | 🧱 ${job.stage}</div>
+          </div>
+          <div class="status-badge ${getBadgeClass(job.status)}">${job.status}</div>
+        </div>
+
+        <div class="detail"><strong>Holding Up:</strong> ${job.holding}</div>
+        <div class="detail"><strong>Labour:</strong> ${job.labour}</div>
+        <div class="detail"><strong>Reality:</strong> ${job.reality}</div>
+        <div class="detail"><strong>Next Action:</strong> ${job.action}</div>
+      `;
+
+      return card;
+    }
+
+    function renderSection(jobList, containerId, emptyMessage) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      if (!jobList.length) {
+        container.innerHTML = `<div class="empty-card">${emptyMessage}</div>`;
+        return;
+      }
+
+      jobList.forEach(job => {
+        container.appendChild(createJobCard(job));
+      });
+    }
+
+    function renderAll(filterText = "") {
+      const filter = filterText.trim().toLowerCase();
+
+      const filteredJobs = jobs.filter(job => {
+        const combinedText = [
+          job.name,
+          job.location,
+          job.stage,
+          job.status,
+          job.holding,
+          job.labour,
+          job.reality,
+          job.action
+        ].join(" ").toLowerCase();
+
+        return combinedText.includes(filter);
+      });
+
+      const riskJobs = filteredJobs.filter(job =>
+        job.status === "Behind" || job.status === "At Risk"
+      );
+
+      const trackJobs = filteredJobs.filter(job =>
+        job.status === "On Track"
+      );
+
+      const unknownJobs = filteredJobs.filter(job =>
+        job.status === "Unknown" || job.status === "Monitor"
+      );
+
+      document.getElementById("kpiJobs").textContent = filteredJobs.length;
+      document.getElementById("kpiRisk").textContent = riskJobs.length;
+      document.getElementById("kpiTrack").textContent = trackJobs.length;
+      document.getElementById("kpiBlind").textContent = filteredJobs.filter(job =>
+        job.dataQuality === "Limited" || job.status === "Unknown"
+      ).length;
+
+      renderSection(riskJobs, "riskJobs", "No at risk jobs found.");
+      renderSection(trackJobs, "trackJobs", "No on track jobs found.");
+      renderSection(unknownJobs, "unknownJobs", "No unknown or limited visibility jobs found.");
+    }
+
+    renderAll();
+
+    searchInput.addEventListener("input", function (e) {
+      renderAll(e.target.value);
+    });
+  </script>
+</body>
+</html>
 
 <body>
 
