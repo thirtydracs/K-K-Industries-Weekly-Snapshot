@@ -243,7 +243,7 @@
     <div class="footer-note" id="footerNote"></div>
   </div>
 
-  <script src="data.js"></script>
+  <script src="data/weekly.js"></script>
   <script>
     const titleEl = document.getElementById("dashboardTitle");
     const subtitleEl = document.getElementById("dashboardSubtitle");
@@ -253,7 +253,7 @@
     const safeDashboard = typeof dashboard !== "undefined" ? dashboard : null;
 
     if (!safeDashboard) {
-      subtitleEl.textContent = "data.js not loading";
+      subtitleEl.textContent = "data/weekly.js not loading";
       footerEl.textContent = "Check file name, script path, or errors in data.js";
     } else {
       titleEl.textContent = safeDashboard.title;
