@@ -4,1408 +4,450 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>K&K Industries Weekly Snapshot</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
   <style>
-    /* ── Variables ──────────────────────────────────────── */
     :root {
-      --bg:           #f0ede8;
-      --surface:      #ffffff;
-      --text:         #1a1a1a;
-      --muted:        #888073;
-      --border:       #e0dbd3;
+      --bg:             #f0ede8;
+      --surface:        #ffffff;
+      --text:           #1a1a1a;
+      --muted:          #888073;
+      --border:         #e0dbd3;
 
-      --risk-bg:      #fff0f0;
-      --risk-border:  #e03131;
-      --risk-text:    #9b1a1a;
-      --risk-kpi-bg:  #e03131;
+      --risk-card-bg:   #fff5f5;
+      --risk-accent:    #dc2626;
+      --monitor-card-bg:#fffbeb;
+      --monitor-accent: #d97706;
+      --track-card-bg:  #f0fdf4;
+      --track-accent:   #16a34a;
+      --unk-card-bg:    #f9f9f9;
+      --unk-accent:     #9ca3af;
 
-      --monitor-bg:   #fffbf0;
-      --monitor-border: #e07b00;
-      --monitor-text: #8a4a00;
-      --monitor-kpi-bg: #e07b00;
-
-      --track-bg:     #f0fff4;
-      --track-border: #2d9c4a;
-      --track-text:   #1a5c2a;
-      --track-kpi-bg: #2d9c4a;
-
-      --unknown-bg:   #f5f5f5;
-      --unknown-border: #999;
-      --unknown-text: #555;
-      --unknown-kpi-bg: #999;
-
-      --labour-ok-bg:     #e8f5ff;
-      --labour-ok-text:   #1a5580;
-      --labour-low-bg:    #fff0e0;
-      --labour-low-text:  #8a4400;
-      --labour-unk-bg:    #f0f0f0;
-      --labour-unk-text:  #555;
-
-      --radius-card:  16px;
-      --radius-pill:  999px;
-      --shadow:       0 2px 12px rgba(0,0,0,0.07);
-      --shadow-hover: 0 6px 24px rgba(0,0,0,0.13);
-
-      --font-display: 'Barlow Condensed', sans-serif;
-      --font-body:    'Barlow', sans-serif;
-      --font-mono:    'DM Mono', monospace;
+      --r: 14px;
+      --shadow: 0 2px 10px rgba(0,0,0,0.07);
     }
 
-    /* ── Reset ──────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font-body);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
     }
 
-    /* ── Layout ─────────────────────────────────────────── */
-    .wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px 20px 48px;
-    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 20px 16px 48px; }
 
-    /* ── Header ─────────────────────────────────────────── */
+    /* Header */
     .header {
-      background: #1a1a1a;
-      border-radius: var(--radius-card);
-      padding: 28px 28px 22px;
-      margin-bottom: 18px;
-      position: relative;
-      overflow: hidden;
+      background: #1c1c1e;
+      border-radius: var(--r);
+      padding: 24px 24px 20px;
+      margin-bottom: 14px;
     }
 
-    .header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 39px,
-          rgba(255,255,255,0.03) 39px,
-          rgba(255,255,255,0.03) 40px
-        ),
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent 39px,
-          rgba(255,255,255,0.03) 39px,
-          rgba(255,255,255,0.03) 40px
-        );
-      pointer-events: none;
-    }
-
-    .header-inner {
-      position: relative;
+    .header-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      gap: 20px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
     .company-name {
-      font-family: var(--font-display);
-      font-size: clamp(36px, 6vw, 64px);
+      font-size: clamp(28px, 5vw, 54px);
       font-weight: 800;
       color: #fff;
+      letter-spacing: -0.02em;
       line-height: 1;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
     }
 
-    .header-meta {
-      text-align: right;
-      flex-shrink: 0;
-    }
+    .header-meta { text-align: right; }
+    .meta-item { margin-bottom: 6px; }
+    .meta-label { font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; }
+    .meta-value { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); }
 
-    .meta-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: rgba(255,255,255,0.4);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .meta-value {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: rgba(255,255,255,0.85);
-      margin-top: 2px;
-    }
-
-    .meta-value + .meta-label { margin-top: 10px; }
-
-    /* ── Controls ───────────────────────────────────────── */
-    .controls {
-      background: var(--surface);
-      border-radius: var(--radius-card);
-      padding: 14px 16px;
-      margin-bottom: 18px;
-      box-shadow: var(--shadow);
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .search {
-      flex: 1 1 220px;
-    }
-
-    .search input {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-size: 16px; /* 16px prevents iOS zoom */
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--text);
-      transition: border-color 0.15s;
-      outline: none;
-    }
-
-    .search input:focus {
-      border-color: #1a1a1a;
-    }
-
-    .search input::placeholder {
-      color: var(--muted);
-    }
-
-    .filters {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      border: 1.5px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      padding: 9px 13px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      white-space: nowrap;
-      transition: all 0.15s;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .filter-btn:hover {
-      border-color: #1a1a1a;
-      color: #1a1a1a;
-    }
-
-    .filter-btn.active {
-      background: #1a1a1a;
-      border-color: #1a1a1a;
-      color: #fff;
-    }
-
-    .filter-btn .count {
-      font-size: 11px;
-      opacity: 0.65;
-    }
-
-    /* ── KPI Grid ───────────────────────────────────────── */
-    .kpis {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 18px;
-    }
+    /* KPIs */
+    .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 14px; }
 
     .kpi-card {
       background: var(--surface);
-      border-radius: var(--radius-card);
-      padding: 18px 20px;
+      border-radius: var(--r);
+      padding: 16px 18px;
       box-shadow: var(--shadow);
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      border-top: 4px solid transparent;
-      position: relative;
-      overflow: hidden;
+      border-top: 3px solid transparent;
+      transition: transform 0.12s, box-shadow 0.12s;
     }
 
-    .kpi-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
+    .kpi-card[data-filter] { cursor: pointer; }
+    .kpi-card[data-filter]:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+    .kpi-card.kpi-active { outline: 2px solid #1c1c1e; outline-offset: 2px; }
+
+    .kpi-card[data-kpi="atRisk"]     { border-top-color: var(--risk-accent); }
+    .kpi-card[data-kpi="onTrack"]    { border-top-color: var(--track-accent); }
+    .kpi-card[data-kpi="blindSpots"] { border-top-color: var(--unk-accent); }
+
+    .kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 8px; }
+    .kpi-value { font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
+
+    .kpi-card[data-kpi="atRisk"]     .kpi-value { color: var(--risk-accent); }
+    .kpi-card[data-kpi="onTrack"]    .kpi-value { color: var(--track-accent); }
+    .kpi-card[data-kpi="blindSpots"] .kpi-value { color: var(--unk-accent); }
+
+    /* Controls */
+    .controls {
+      background: var(--surface);
+      border-radius: var(--r);
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
-    .kpi-card.active-kpi::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: currentColor;
-      opacity: 0.04;
-      pointer-events: none;
+    .search { flex: 1 1 200px; }
+
+    .search input {
+      width: 100%;
+      padding: 9px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      font-size: 16px;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
     }
 
-    .kpi-card[data-kpi="atRisk"]    { border-top-color: var(--risk-kpi-bg); }
-    .kpi-card[data-kpi="onTrack"]   { border-top-color: var(--track-kpi-bg); }
-    .kpi-card[data-kpi="blindSpots"]{ border-top-color: var(--unknown-kpi-bg); }
+    .search input:focus { border-color: #1c1c1e; }
 
-    .kpi-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
+    .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1.5px solid var(--border);
+      background: transparent;
       color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-bottom: 10px;
+      padding: 0 12px;
+      height: 44px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: all 0.12s;
     }
 
-    .kpi-value {
-      font-family: var(--font-display);
-      font-size: 48px;
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -0.02em;
-    }
+    .filter-btn:hover { border-color: #1c1c1e; color: var(--text); }
+    .filter-btn.active { background: #1c1c1e; border-color: #1c1c1e; color: #fff; }
+    .filter-count { font-size: 11px; font-weight: 400; opacity: 0.65; }
 
-    .kpi-card[data-kpi="atRisk"]     .kpi-value { color: var(--risk-kpi-bg); }
-    .kpi-card[data-kpi="onTrack"]    .kpi-value { color: var(--track-kpi-bg); }
-    .kpi-card[data-kpi="blindSpots"] .kpi-value { color: var(--unknown-kpi-bg); }
+    /* Jobs */
+    .jobs-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
 
-    /* ── Jobs Grid ──────────────────────────────────────── */
-    .jobs-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    /* ── Job Card ───────────────────────────────────────── */
     .job-card {
       background: var(--surface);
-      border-radius: var(--radius-card);
+      border-radius: var(--r);
       box-shadow: var(--shadow);
-      overflow: hidden;
+      border-left: 5px solid transparent;
       display: flex;
       flex-direction: column;
-      animation: fadeUp 0.25s ease both;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    .job-card.s-risk    { border-left-color: var(--risk-accent);    background: var(--risk-card-bg); }
+    .job-card.s-monitor { border-left-color: var(--monitor-accent);  background: var(--monitor-card-bg); }
+    .job-card.s-track   { border-left-color: var(--track-accent);    background: var(--track-card-bg); }
+    .job-card.s-unknown { border-left-color: var(--unk-accent);      background: var(--unk-card-bg); }
 
-    .job-card--at-risk   { border-left: 5px solid var(--risk-border);    background: var(--risk-bg); }
-    .job-card--monitor   { border-left: 5px solid var(--monitor-border);  background: var(--monitor-bg); }
-    .job-card--on-track  { border-left: 5px solid var(--track-border);    background: var(--track-bg); }
-    .job-card--unknown   { border-left: 5px solid var(--unknown-border);  background: var(--unknown-bg); }
+    .card-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
 
-    .job-card-inner {
-      padding: 20px 22px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
+    .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
 
-    .job-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-    }
+    .job-name { font-size: 20px; font-weight: 700; line-height: 1.15; min-width: 0; }
 
-    .job-name {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 1.1;
-      min-width: 0; /* prevents overflow */
-    }
-
-    /* ── Badges ─────────────────────────────────────────── */
-    .badge {
+    .status-badge {
       flex-shrink: 0;
-      padding: 5px 11px;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-mono);
+      padding: 4px 10px;
+      border-radius: 999px;
       font-size: 11px;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    .badge--risk    { background: var(--risk-border);    color: #fff; }
-    .badge--monitor { background: var(--monitor-border); color: #fff; }
-    .badge--track   { background: var(--track-border);   color: #fff; }
-    .badge--unknown { background: var(--unknown-border); color: #fff; }
-
-    .labour-badge {
-      display: inline-block;
-      padding: 3px 9px;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-    }
-
-    .labour--adequate    { background: var(--labour-ok-bg);  color: var(--labour-ok-text); }
-    .labour--insufficient{ background: var(--labour-low-bg); color: var(--labour-low-text); }
-    .labour--unknown     { background: var(--labour-unk-bg); color: var(--labour-unk-text); }
-
-    /* ── Job Rows ───────────────────────────────────────── */
-    .job-row { display: flex; flex-direction: column; gap: 4px; }
-
-    .job-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      font-weight: 500;
+      letter-spacing: 0.04em;
     }
 
-    .job-value {
-      font-size: 14px;
-      line-height: 1.55;
-      color: var(--text);
+    .b-risk    { background: var(--risk-accent); }
+    .b-monitor { background: var(--monitor-accent); }
+    .b-track   { background: var(--track-accent); }
+    .b-unknown { background: var(--unk-accent); }
+
+    .field { display: flex; flex-direction: column; gap: 3px; }
+    .field-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+    .field-value { font-size: 14px; line-height: 1.5; color: var(--text); }
+
+    .labour-pill {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
     }
 
-    /* ── Next Action (highlighted) ──────────────────────── */
-    .next-action-block {
+    .l-ok  { background: #eff6ff; color: #1d4ed8; }
+    .l-low { background: #fff7ed; color: #c2410c; }
+    .l-unk { background: #f3f4f6; color: #6b7280; }
+
+    .next-action {
       margin-top: auto;
-      background: rgba(0,0,0,0.04);
-      border-radius: 10px;
-      padding: 12px 14px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 9px;
+      padding: 11px 13px;
     }
 
-    .next-action-block .job-label { color: var(--text); font-weight: 700; }
-    .next-action-block .job-value { font-weight: 600; font-size: 14px; }
+    .next-action .field-label { color: var(--text); }
+    .next-action .field-value { font-weight: 600; }
 
-    /* ── Empty State ────────────────────────────────────── */
-    .empty-state {
-      grid-column: 1 / -1;
+    .empty {
+      grid-column: 1/-1;
       background: var(--surface);
-      border-radius: var(--radius-card);
-      padding: 36px;
+      border-radius: var(--r);
+      padding: 40px;
       text-align: center;
       color: var(--muted);
-      font-family: var(--font-mono);
       font-size: 14px;
       box-shadow: var(--shadow);
     }
 
-    /* ── Footer ─────────────────────────────────────────── */
-    .footer {
-      margin-top: 36px;
-      text-align: center;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-    }
+    .footer { margin-top: 32px; text-align: center; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
 
-    /* ── Responsive ─────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .kpis      { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 860px) {
+      .kpis      { grid-template-columns: repeat(2,1fr); }
       .jobs-grid { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 600px) {
-      .wrap       { padding: 14px 14px 40px; }
-      .header     { padding: 20px 18px 18px; }
-      .kpi-value  { font-size: 40px; }
-      .controls   { flex-direction: column; align-items: stretch; }
-      .filters    { justify-content: stretch; }
-      .filter-btn { flex: 1 1 auto; justify-content: center; }
+    @media (max-width: 560px) {
+      .wrap       { padding: 12px 12px 40px; }
+      .kpi-value  { font-size: 36px; }
+      .controls   { flex-direction: column; }
+      .filters    { width: 100%; }
+      .filter-btn { flex: 1; justify-content: center; }
     }
 
-    /* ── Print ──────────────────────────────────────────── */
     @media print {
-      body        { background: #fff; }
+      body, .wrap { background: #fff; }
       .controls   { display: none; }
-      .header     { background: #1a1a1a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .kpi-card,
-      .job-card   { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
-      .jobs-grid  { grid-template-columns: repeat(2, 1fr); }
-      .footer     { margin-top: 20px; }
-
-      .job-card--at-risk,
-      .job-card--monitor,
-      .job-card--on-track,
-      .job-card--unknown {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
+      .header     { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .job-card   { break-inside: avoid; box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .jobs-grid  { grid-template-columns: repeat(2,1fr); }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+<div class="wrap">
 
-    <!-- Header -->
-    <header class="header">
-      <div class="header-inner">
-        <h1 class="company-name" id="companyName"></h1>
-        <div class="header-meta">
+  <header class="header">
+    <div class="header-row">
+      <h1 class="company-name" id="companyName"></h1>
+      <div class="header-meta">
+        <div class="meta-item">
           <div class="meta-label">Week Ending</div>
           <div class="meta-value" id="weekEnding"></div>
+        </div>
+        <div class="meta-item">
           <div class="meta-label">Last Updated</div>
           <div class="meta-value" id="lastUpdated"></div>
         </div>
       </div>
-    </header>
-
-    <!-- KPIs -->
-    <div class="kpis">
-      <div class="kpi-card" data-kpi="totalJobs">
-        <div class="kpi-label">Total Jobs</div>
-        <div class="kpi-value" id="kpiTotal"></div>
-      </div>
-      <div class="kpi-card" data-kpi="atRisk" role="button" tabindex="0" aria-label="Filter by At Risk">
-        <div class="kpi-label">At Risk</div>
-        <div class="kpi-value" id="kpiAtRisk"></div>
-      </div>
-      <div class="kpi-card" data-kpi="onTrack" role="button" tabindex="0" aria-label="Filter by On Track">
-        <div class="kpi-label">On Track</div>
-        <div class="kpi-value" id="kpiOnTrack"></div>
-      </div>
-      <div class="kpi-card" data-kpi="blindSpots" role="button" tabindex="0" aria-label="Filter by Unknown">
-        <div class="kpi-label">Blind Spots</div>
-        <div class="kpi-value" id="kpiBlindSpots"></div>
-      </div>
     </div>
+  </header>
 
-    <!-- Controls -->
-    <div class="controls">
-      <div class="search">
-        <input type="text" id="searchInput" placeholder="Search job name…" autocomplete="off" />
-      </div>
-      <div class="filters" id="filterButtons"></div>
+  <div class="kpis">
+    <div class="kpi-card" data-kpi="totalJobs">
+      <div class="kpi-label">Total Jobs</div>
+      <div class="kpi-value" id="kpiTotal"></div>
     </div>
-
-    <!-- Jobs -->
-    <div id="jobsContainer" class="jobs-grid"></div>
-
-    <!-- Footer -->
-    <footer class="footer">
-      Produced by Thirty Petals &nbsp;·&nbsp; Confidential
-    </footer>
-
+    <div class="kpi-card" data-kpi="atRisk" data-filter="At Risk" tabindex="0" role="button">
+      <div class="kpi-label">At Risk</div>
+      <div class="kpi-value" id="kpiAtRisk"></div>
+    </div>
+    <div class="kpi-card" data-kpi="onTrack" data-filter="On Track" tabindex="0" role="button">
+      <div class="kpi-label">On Track</div>
+      <div class="kpi-value" id="kpiOnTrack"></div>
+    </div>
+    <div class="kpi-card" data-kpi="blindSpots" data-filter="Unknown" tabindex="0" role="button">
+      <div class="kpi-label">Blind Spots</div>
+      <div class="kpi-value" id="kpiBlindSpots"></div>
+    </div>
   </div>
 
-  <script src="data/weekly.js"></script>
-  <script>
-    /* ── Helpers ──────────────────────────────────────── */
-
-    // Escape strings to prevent XSS in innerHTML contexts
-    function esc(str) {
-      const div = document.createElement("div");
-      div.textContent = String(str ?? "");
-      return div.innerHTML;
-    }
-
-    function el(tag, attrs = {}, ...children) {
-      const node = document.createElement(tag);
-      for (const [k, v] of Object.entries(attrs)) {
-        if (k === "className") node.className = v;
-        else if (k === "textContent") node.textContent = v;
-        else node.setAttribute(k, v);
-      }
-      children.forEach(c => {
-        if (typeof c === "string") node.appendChild(document.createTextNode(c));
-        else if (c) node.appendChild(c);
-      });
-      return node;
-    }
-
-    /* ── Computed KPIs ────────────────────────────────── */
-
-    function computeKPIs(jobs) {
-      return {
-        totalJobs:   jobs.length,
-        atRisk:      jobs.filter(j => j.status === "At Risk").length,
-        onTrack:     jobs.filter(j => j.status === "On Track").length,
-        blindSpots:  jobs.filter(j => j.status === "Unknown").length,
-      };
-    }
-
-    /* ── Status / Labour mappings ─────────────────────── */
-
-    const STATUS_MAP = {
-      "At Risk":  { cardClass: "job-card--at-risk",  badgeClass: "badge--risk",    label: "At Risk" },
-      "Monitor":  { cardClass: "job-card--monitor",  badgeClass: "badge--monitor", label: "Monitor" },
-      "On Track": { cardClass: "job-card--on-track", badgeClass: "badge--track",   label: "On Track" },
-      "Unknown":  { cardClass: "job-card--unknown",  badgeClass: "badge--unknown", label: "Unknown" },
-    };
-
-    const LABOUR_MAP = {
-      "Adequate":     { cls: "labour--adequate",     label: "Adequate" },
-      "Insufficient": { cls: "labour--insufficient", label: "Insufficient" },
-      "Unknown":      { cls: "labour--unknown",      label: "Unknown" },
-    };
-
-    function labourInfo(val) {
-      return LABOUR_MAP[val] ?? { cls: "labour--unknown", label: val ?? "Unknown" };
-    }
-
-    const FILTER_STATUS = {
-      "All":      null,
-      "At Risk":  "At Risk",
-      "Monitor":  "Monitor",
-      "On Track": "On Track",
-      "Unknown":  "Unknown",
-    };
-
-    /* ── State ────────────────────────────────────────── */
-
-    let currentFilter = "All";
-
-    /* ── Render: Header ───────────────────────────────── */
-
-    function renderHeader() {
-      document.getElementById("companyName").textContent = snapshotData.company;
-      document.getElementById("weekEnding").textContent  = snapshotData.weekEnding;
-      document.getElementById("lastUpdated").textContent = snapshotData.lastUpdated;
-    }
-
-    /* ── Render: KPIs ─────────────────────────────────── */
-
-    function renderKPIs(kpis) {
-      document.getElementById("kpiTotal").textContent     = kpis.totalJobs;
-      document.getElementById("kpiAtRisk").textContent    = kpis.atRisk;
-      document.getElementById("kpiOnTrack").textContent   = kpis.onTrack;
-      document.getElementById("kpiBlindSpots").textContent = kpis.blindSpots;
-    }
-
-    /* ── Render: Filter buttons ───────────────────────── */
-
-    function renderFilters() {
-      const container = document.getElementById("filterButtons");
-      container.innerHTML = "";
-
-      Object.keys(FILTER_STATUS).forEach(label => {
-        const statusVal = FILTER_STATUS[label];
-        const count = statusVal === null
-          ? snapshotData.jobs.length
-          : snapshotData.jobs.filter(j => j.status === statusVal).length;
-
-        const btn = el("button", {
-          className: "filter-btn" + (currentFilter === label ? " active" : ""),
-          "data-filter": label,
-          "aria-pressed": currentFilter === label ? "true" : "false",
-        });
-
-        btn.appendChild(document.createTextNode(label));
-        const countSpan = el("span", { className: "count" }, `(${count})`);
-        btn.appendChild(countSpan);
-
-        btn.addEventListener("click", () => {
-          currentFilter = label;
-          renderFilters();
-          renderJobs();
-          syncKPIActive();
-        });
-
-        container.appendChild(btn);
-      });
-    }
-
-    /* ── KPI cards → filter interaction ──────────────── */
-
-    const KPI_FILTER_MAP = {
-      atRisk:     "At Risk",
-      onTrack:    "On Track",
-      blindSpots: "Unknown",
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>K&K Industries Weekly Snapshot</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-  <style>
-    /* ── Variables ──────────────────────────────────────── */
-    :root {
-      --bg:           #f0ede8;
-      --surface:      #ffffff;
-      --text:         #1a1a1a;
-      --muted:        #888073;
-      --border:       #e0dbd3;
-
-      --risk-bg:      #fff0f0;
-      --risk-border:  #e03131;
-      --risk-text:    #9b1a1a;
-      --risk-kpi-bg:  #e03131;
-
-      --monitor-bg:   #fffbf0;
-      --monitor-border: #e07b00;
-      --monitor-text: #8a4a00;
-      --monitor-kpi-bg: #e07b00;
-
-      --track-bg:     #f0fff4;
-      --track-border: #2d9c4a;
-      --track-text:   #1a5c2a;
-      --track-kpi-bg: #2d9c4a;
-
-      --unknown-bg:   #f5f5f5;
-      --unknown-border: #999;
-      --unknown-text: #555;
-      --unknown-kpi-bg: #999;
-
-      --labour-ok-bg:     #e8f5ff;
-      --labour-ok-text:   #1a5580;
-      --labour-low-bg:    #fff0e0;
-      --labour-low-text:  #8a4400;
-      --labour-unk-bg:    #f0f0f0;
-      --labour-unk-text:  #555;
-
-      --radius-card:  16px;
-      --radius-pill:  999px;
-      --shadow:       0 2px 12px rgba(0,0,0,0.07);
-      --shadow-hover: 0 6px 24px rgba(0,0,0,0.13);
-
-      --font-display: 'Barlow Condensed', sans-serif;
-      --font-body:    'Barlow', sans-serif;
-      --font-mono:    'DM Mono', monospace;
-    }
-
-    /* ── Reset ──────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* ── Layout ─────────────────────────────────────────── */
-    .wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px 20px 48px;
-    }
-
-    /* ── Header ─────────────────────────────────────────── */
-    .header {
-      background: #1a1a1a;
-      border-radius: var(--radius-card);
-      padding: 28px 28px 22px;
-      margin-bottom: 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 39px,
-          rgba(255,255,255,0.03) 39px,
-          rgba(255,255,255,0.03) 40px
-        ),
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent 39px,
-          rgba(255,255,255,0.03) 39px,
-          rgba(255,255,255,0.03) 40px
-        );
-      pointer-events: none;
-    }
-
-    .header-inner {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .company-name {
-      font-family: var(--font-display);
-      font-size: clamp(36px, 6vw, 64px);
-      font-weight: 800;
-      color: #fff;
-      line-height: 1;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
-    }
-
-    .header-meta {
-      text-align: right;
-      flex-shrink: 0;
-    }
-
-    .meta-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: rgba(255,255,255,0.4);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .meta-value {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: rgba(255,255,255,0.85);
-      margin-top: 2px;
-    }
-
-    .meta-value + .meta-label { margin-top: 10px; }
-
-    /* ── Controls ───────────────────────────────────────── */
-    .controls {
-      background: var(--surface);
-      border-radius: var(--radius-card);
-      padding: 14px 16px;
-      margin-bottom: 18px;
-      box-shadow: var(--shadow);
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .search {
-      flex: 1 1 220px;
-    }
-
-    .search input {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-size: 16px; /* 16px prevents iOS zoom */
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--text);
-      transition: border-color 0.15s;
-      outline: none;
-    }
-
-    .search input:focus {
-      border-color: #1a1a1a;
-    }
-
-    .search input::placeholder {
-      color: var(--muted);
-    }
-
-    .filters {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      border: 1.5px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      padding: 9px 13px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      white-space: nowrap;
-      transition: all 0.15s;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .filter-btn:hover {
-      border-color: #1a1a1a;
-      color: #1a1a1a;
-    }
-
-    .filter-btn.active {
-      background: #1a1a1a;
-      border-color: #1a1a1a;
-      color: #fff;
-    }
-
-    .filter-btn .count {
-      font-size: 11px;
-      opacity: 0.65;
-    }
-
-    /* ── KPI Grid ───────────────────────────────────────── */
-    .kpis {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-
-    .kpi-card {
-      background: var(--surface);
-      border-radius: var(--radius-card);
-      padding: 18px 20px;
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      border-top: 4px solid transparent;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .kpi-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .kpi-card.active-kpi::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: currentColor;
-      opacity: 0.04;
-      pointer-events: none;
-    }
-
-    .kpi-card[data-kpi="atRisk"]    { border-top-color: var(--risk-kpi-bg); }
-    .kpi-card[data-kpi="onTrack"]   { border-top-color: var(--track-kpi-bg); }
-    .kpi-card[data-kpi="blindSpots"]{ border-top-color: var(--unknown-kpi-bg); }
-
-    .kpi-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-bottom: 10px;
-    }
-
-    .kpi-value {
-      font-family: var(--font-display);
-      font-size: 48px;
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -0.02em;
-    }
-
-    .kpi-card[data-kpi="atRisk"]     .kpi-value { color: var(--risk-kpi-bg); }
-    .kpi-card[data-kpi="onTrack"]    .kpi-value { color: var(--track-kpi-bg); }
-    .kpi-card[data-kpi="blindSpots"] .kpi-value { color: var(--unknown-kpi-bg); }
-
-    /* ── Jobs Grid ──────────────────────────────────────── */
-    .jobs-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    /* ── Job Card ───────────────────────────────────────── */
-    .job-card {
-      background: var(--surface);
-      border-radius: var(--radius-card);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      animation: fadeUp 0.25s ease both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .job-card--at-risk   { border-left: 5px solid var(--risk-border);    background: var(--risk-bg); }
-    .job-card--monitor   { border-left: 5px solid var(--monitor-border);  background: var(--monitor-bg); }
-    .job-card--on-track  { border-left: 5px solid var(--track-border);    background: var(--track-bg); }
-    .job-card--unknown   { border-left: 5px solid var(--unknown-border);  background: var(--unknown-bg); }
-
-    .job-card-inner {
-      padding: 20px 22px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .job-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .job-name {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 1.1;
-      min-width: 0; /* prevents overflow */
-    }
-
-    /* ── Badges ─────────────────────────────────────────── */
-    .badge {
-      flex-shrink: 0;
-      padding: 5px 11px;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    .badge--risk    { background: var(--risk-border);    color: #fff; }
-    .badge--monitor { background: var(--monitor-border); color: #fff; }
-    .badge--track   { background: var(--track-border);   color: #fff; }
-    .badge--unknown { background: var(--unknown-border); color: #fff; }
-
-    .labour-badge {
-      display: inline-block;
-      padding: 3px 9px;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-    }
-
-    .labour--adequate    { background: var(--labour-ok-bg);  color: var(--labour-ok-text); }
-    .labour--insufficient{ background: var(--labour-low-bg); color: var(--labour-low-text); }
-    .labour--unknown     { background: var(--labour-unk-bg); color: var(--labour-unk-text); }
-
-    /* ── Job Rows ───────────────────────────────────────── */
-    .job-row { display: flex; flex-direction: column; gap: 4px; }
-
-    .job-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    .job-value {
-      font-size: 14px;
-      line-height: 1.55;
-      color: var(--text);
-    }
-
-    /* ── Next Action (highlighted) ──────────────────────── */
-    .next-action-block {
-      margin-top: auto;
-      background: rgba(0,0,0,0.04);
-      border-radius: 10px;
-      padding: 12px 14px;
-    }
-
-    .next-action-block .job-label { color: var(--text); font-weight: 700; }
-    .next-action-block .job-value { font-weight: 600; font-size: 14px; }
-
-    /* ── Empty State ────────────────────────────────────── */
-    .empty-state {
-      grid-column: 1 / -1;
-      background: var(--surface);
-      border-radius: var(--radius-card);
-      padding: 36px;
-      text-align: center;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 14px;
-      box-shadow: var(--shadow);
-    }
-
-    /* ── Footer ─────────────────────────────────────────── */
-    .footer {
-      margin-top: 36px;
-      text-align: center;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-    }
-
-    /* ── Responsive ─────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .kpis      { grid-template-columns: repeat(2, 1fr); }
-      .jobs-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 600px) {
-      .wrap       { padding: 14px 14px 40px; }
-      .header     { padding: 20px 18px 18px; }
-      .kpi-value  { font-size: 40px; }
-      .controls   { flex-direction: column; align-items: stretch; }
-      .filters    { justify-content: stretch; }
-      .filter-btn { flex: 1 1 auto; justify-content: center; }
-    }
-
-    /* ── Print ──────────────────────────────────────────── */
-    @media print {
-      body        { background: #fff; }
-      .controls   { display: none; }
-      .header     { background: #1a1a1a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .kpi-card,
-      .job-card   { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
-      .jobs-grid  { grid-template-columns: repeat(2, 1fr); }
-      .footer     { margin-top: 20px; }
-
-      .job-card--at-risk,
-      .job-card--monitor,
-      .job-card--on-track,
-      .job-card--unknown {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-
-    <!-- Header -->
-    <header class="header">
-      <div class="header-inner">
-        <h1 class="company-name" id="companyName"></h1>
-        <div class="header-meta">
-          <div class="meta-label">Week Ending</div>
-          <div class="meta-value" id="weekEnding"></div>
-          <div class="meta-label">Last Updated</div>
-          <div class="meta-value" id="lastUpdated"></div>
-        </div>
-      </div>
-    </header>
-
-    <!-- KPIs -->
-    <div class="kpis">
-      <div class="kpi-card" data-kpi="totalJobs">
-        <div class="kpi-label">Total Jobs</div>
-        <div class="kpi-value" id="kpiTotal"></div>
-      </div>
-      <div class="kpi-card" data-kpi="atRisk" role="button" tabindex="0" aria-label="Filter by At Risk">
-        <div class="kpi-label">At Risk</div>
-        <div class="kpi-value" id="kpiAtRisk"></div>
-      </div>
-      <div class="kpi-card" data-kpi="onTrack" role="button" tabindex="0" aria-label="Filter by On Track">
-        <div class="kpi-label">On Track</div>
-        <div class="kpi-value" id="kpiOnTrack"></div>
-      </div>
-      <div class="kpi-card" data-kpi="blindSpots" role="button" tabindex="0" aria-label="Filter by Unknown">
-        <div class="kpi-label">Blind Spots</div>
-        <div class="kpi-value" id="kpiBlindSpots"></div>
-      </div>
+  <div class="controls">
+    <div class="search">
+      <input type="text" id="searchInput" placeholder="Search job name…" autocomplete="off" />
     </div>
-
-    <!-- Controls -->
-    <div class="controls">
-      <div class="search">
-        <input type="text" id="searchInput" placeholder="Search job name…" autocomplete="off" />
-      </div>
-      <div class="filters" id="filterButtons"></div>
-    </div>
-
-    <!-- Jobs -->
-    <div id="jobsContainer" class="jobs-grid"></div>
-
-    <!-- Footer -->
-    <footer class="footer">
-      Produced by Thirty Petals &nbsp;·&nbsp; Confidential
-    </footer>
-
+    <div class="filters" id="filterBtns"></div>
   </div>
 
-  <script>
-    const snapshotData = {
-      company: "K&K Industries",
-      weekEnding: "1 April 2026",
-      lastUpdated: "5 April 2026",
-      jobs: [
-        {
-          name: "Caltex D'Aguilar",
-          status: "At Risk",
-          holdingUp: "Ace Demolition non-performance",
-          labour: "Adequate",
-          reality: "Key milestones achieved but demolition is holding job back.",
-          nextAction: "Replace or manage contractor, resolve stockpile, confirm slab programme."
-        },
-        {
-          name: "Pearl Energy Childers",
-          status: "Monitor",
-          holdingUp: "Concreting start post-Easter",
-          labour: "Insufficient",
-          reality: "Prep largely complete but fragile without labour increase.",
-          nextAction: "Lock concreter, increase crew, confirm slab readiness."
-        },
-        {
-          name: "EXUS Williamstown",
-          status: "Unknown",
-          holdingUp: "No structured logs",
-          labour: "Adequate",
-          reality: "Work progressing but programme position unclear.",
-          nextAction: "Complete logs and confirm programme."
-        },
-        {
-          name: "Pearl Energy Emerald",
-          status: "Unknown",
-          holdingUp: "No structured logs",
-          labour: "Unknown",
-          reality: "No usable weekly position from logs yet.",
-          nextAction: "Improve daily logging and confirm programme."
-        }
-      ]
-    };
-  </script>
-  <script>
-    /* ── Helpers ──────────────────────────────────────── */
+  <div id="jobsGrid" class="jobs-grid"></div>
 
-    // Escape strings to prevent XSS in innerHTML contexts
-    function esc(str) {
-      const div = document.createElement("div");
-      div.textContent = String(str ?? "");
-      return div.innerHTML;
-    }
+  <footer class="footer">Produced by Thirty Petals &nbsp;·&nbsp; Confidential</footer>
 
-    function el(tag, attrs = {}, ...children) {
-      const node = document.createElement(tag);
-      for (const [k, v] of Object.entries(attrs)) {
-        if (k === "className") node.className = v;
-        else if (k === "textContent") node.textContent = v;
-        else node.setAttribute(k, v);
+</div>
+<script>
+  var data = {
+    company: "K&K Industries",
+    weekEnding: "1 April 2026",
+    lastUpdated: "5 April 2026",
+    jobs: [
+      {
+        name: "Caltex D'Aguilar",
+        status: "At Risk",
+        holdingUp: "Ace Demolition non-performance",
+        labour: "Adequate",
+        reality: "Key milestones achieved but demolition is holding job back.",
+        nextAction: "Replace or manage contractor, resolve stockpile, confirm slab programme."
+      },
+      {
+        name: "Pearl Energy Childers",
+        status: "Monitor",
+        holdingUp: "Concreting start post-Easter",
+        labour: "Insufficient",
+        reality: "Prep largely complete but fragile without labour increase.",
+        nextAction: "Lock concreter, increase crew, confirm slab readiness."
+      },
+      {
+        name: "EXUS Williamstown",
+        status: "Unknown",
+        holdingUp: "No structured logs",
+        labour: "Adequate",
+        reality: "Work progressing but programme position unclear.",
+        nextAction: "Complete logs and confirm programme."
+      },
+      {
+        name: "Pearl Energy Emerald",
+        status: "Unknown",
+        holdingUp: "No structured logs",
+        labour: "Unknown",
+        reality: "No usable weekly position from logs yet.",
+        nextAction: "Improve daily logging and confirm programme."
       }
-      children.forEach(c => {
-        if (typeof c === "string") node.appendChild(document.createTextNode(c));
-        else if (c) node.appendChild(c);
-      });
-      return node;
-    }
+    ]
+  };
 
-    /* ── Computed KPIs ────────────────────────────────── */
+  function esc(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
 
-    function computeKPIs(jobs) {
-      return {
-        totalJobs:   jobs.length,
-        atRisk:      jobs.filter(j => j.status === "At Risk").length,
-        onTrack:     jobs.filter(j => j.status === "On Track").length,
-        blindSpots:  jobs.filter(j => j.status === "Unknown").length,
-      };
-    }
+  var STATUS = {
+    "At Risk":  { card: "s-risk",    badge: "b-risk",    label: "At Risk" },
+    "Monitor":  { card: "s-monitor", badge: "b-monitor", label: "Monitor" },
+    "On Track": { card: "s-track",   badge: "b-track",   label: "On Track" },
+    "Unknown":  { card: "s-unknown", badge: "b-unknown", label: "Unknown" }
+  };
 
-    /* ── Status / Labour mappings ─────────────────────── */
+  var LABOUR = {
+    "Adequate":     "l-ok",
+    "Insufficient": "l-low",
+    "Unknown":      "l-unk"
+  };
 
-    const STATUS_MAP = {
-      "At Risk":  { cardClass: "job-card--at-risk",  badgeClass: "badge--risk",    label: "At Risk" },
-      "Monitor":  { cardClass: "job-card--monitor",  badgeClass: "badge--monitor", label: "Monitor" },
-      "On Track": { cardClass: "job-card--on-track", badgeClass: "badge--track",   label: "On Track" },
-      "Unknown":  { cardClass: "job-card--unknown",  badgeClass: "badge--unknown", label: "Unknown" },
-    };
+  var FILTERS = ["All", "At Risk", "Monitor", "On Track", "Unknown"];
+  var currentFilter = "All";
 
-    const LABOUR_MAP = {
-      "Adequate":     { cls: "labour--adequate",     label: "Adequate" },
-      "Insufficient": { cls: "labour--insufficient", label: "Insufficient" },
-      "Unknown":      { cls: "labour--unknown",      label: "Unknown" },
-    };
+  function count(f) {
+    if (f === "All") return data.jobs.length;
+    return data.jobs.filter(function(j) { return j.status === f; }).length;
+  }
 
-    function labourInfo(val) {
-      return LABOUR_MAP[val] ?? { cls: "labour--unknown", label: val ?? "Unknown" };
-    }
+  // Header
+  document.getElementById("companyName").textContent = data.company;
+  document.getElementById("weekEnding").textContent  = data.weekEnding;
+  document.getElementById("lastUpdated").textContent = data.lastUpdated;
 
-    const FILTER_STATUS = {
-      "All":      null,
-      "At Risk":  "At Risk",
-      "Monitor":  "Monitor",
-      "On Track": "On Track",
-      "Unknown":  "Unknown",
-    };
+  // KPIs
+  document.getElementById("kpiTotal").textContent     = data.jobs.length;
+  document.getElementById("kpiAtRisk").textContent    = count("At Risk");
+  document.getElementById("kpiOnTrack").textContent   = count("On Track");
+  document.getElementById("kpiBlindSpots").textContent = count("Unknown");
 
-    /* ── State ────────────────────────────────────────── */
-
-    let currentFilter = "All";
-
-    /* ── Render: Header ───────────────────────────────── */
-
-    function renderHeader() {
-      document.getElementById("companyName").textContent = snapshotData.company;
-      document.getElementById("weekEnding").textContent  = snapshotData.weekEnding;
-      document.getElementById("lastUpdated").textContent = snapshotData.lastUpdated;
-    }
-
-    /* ── Render: KPIs ─────────────────────────────────── */
-
-    function renderKPIs(kpis) {
-      document.getElementById("kpiTotal").textContent     = kpis.totalJobs;
-      document.getElementById("kpiAtRisk").textContent    = kpis.atRisk;
-      document.getElementById("kpiOnTrack").textContent   = kpis.onTrack;
-      document.getElementById("kpiBlindSpots").textContent = kpis.blindSpots;
-    }
-
-    /* ── Render: Filter buttons ───────────────────────── */
-
-    function renderFilters() {
-      const container = document.getElementById("filterButtons");
-      container.innerHTML = "";
-
-      Object.keys(FILTER_STATUS).forEach(label => {
-        const statusVal = FILTER_STATUS[label];
-        const count = statusVal === null
-          ? snapshotData.jobs.length
-          : snapshotData.jobs.filter(j => j.status === statusVal).length;
-
-        const btn = el("button", {
-          className: "filter-btn" + (currentFilter === label ? " active" : ""),
-          "data-filter": label,
-          "aria-pressed": currentFilter === label ? "true" : "false",
-        });
-
-        btn.appendChild(document.createTextNode(label));
-        const countSpan = el("span", { className: "count" }, `(${count})`);
-        btn.appendChild(countSpan);
-
-        btn.addEventListener("click", () => {
-          currentFilter = label;
-          renderFilters();
-          renderJobs();
-          syncKPIActive();
-        });
-
-        container.appendChild(btn);
-      });
-    }
-
-    /* ── KPI cards → filter interaction ──────────────── */
-
-    const KPI_FILTER_MAP = {
-      atRisk:     "At Risk",
-      onTrack:    "On Track",
-      blindSpots: "Unknown",
-      totalJobs:  "All",
-    };
-
-    function syncKPIActive() {
-      document.querySelectorAll(".kpi-card").forEach(card => {
-        const mapped = KPI_FILTER_MAP[card.dataset.kpi];
-        card.classList.toggle("active-kpi", mapped === currentFilter);
-      });
-    }
-
-    document.querySelectorAll(".kpi-card[role='button']").forEach(card => {
-      const activate = () => {
-        currentFilter = KPI_FILTER_MAP[card.dataset.kpi] ?? "All";
+  // Filters
+  function renderFilters() {
+    var c = document.getElementById("filterBtns");
+    c.innerHTML = FILTERS.map(function(f) {
+      return '<button class="filter-btn' + (currentFilter === f ? " active" : "") + '" data-f="' + esc(f) + '">' +
+        esc(f) + ' <span class="filter-count">(' + count(f) + ')</span></button>';
+    }).join("");
+    c.querySelectorAll(".filter-btn").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        currentFilter = btn.getAttribute("data-f");
         renderFilters();
         renderJobs();
-        syncKPIActive();
-      };
-      card.addEventListener("click", activate);
-      card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") activate(); });
+        syncKPI();
+      });
     });
+  }
 
-    /* ── Render: Job cards ────────────────────────────── */
-
-    function renderJobs() {
-      const container = document.getElementById("jobsContainer");
-      const search    = document.getElementById("searchInput").value.trim().toLowerCase();
-      const status    = FILTER_STATUS[currentFilter];
-
-      const filtered = snapshotData.jobs.filter(job => {
-        const matchSearch = job.name.toLowerCase().includes(search);
-        const matchStatus = status === null || job.status === status;
-        return matchSearch && matchStatus;
-      });
-
-      container.innerHTML = "";
-
-      if (filtered.length === 0) {
-        container.appendChild(
-          el("div", { className: "empty-state" }, "No jobs match your search or filter.")
-        );
-        return;
-      }
-
-      filtered.forEach((job, i) => {
-        const info   = STATUS_MAP[job.status] ?? STATUS_MAP["Unknown"];
-        const labour = labourInfo(job.labour);
-
-        const card = el("div", {
-          className: `job-card ${info.cardClass}`,
-          style: `animation-delay: ${i * 50}ms`
-        });
-
-        const inner = el("div", { className: "job-card-inner" });
-
-        // Head: name + status badge
-        const head  = el("div", { className: "job-head" });
-        const name  = el("h2",  { className: "job-name", textContent: job.name });
-        const badge = el("span", { className: `badge ${info.badgeClass}`, textContent: info.label });
-        head.appendChild(name);
-        head.appendChild(badge);
-        inner.appendChild(head);
-
-        // Holding Up
-        inner.appendChild(jobRow("Holding Up", job.holdingUp));
-
-        // Labour
-        const labourRow = el("div", { className: "job-row" });
-        labourRow.appendChild(el("div", { className: "job-label", textContent: "Labour" }));
-        const labourVal = el("div", { className: "job-value" });
-        labourVal.appendChild(el("span", { className: `labour-badge ${labour.cls}`, textContent: labour.label }));
-        labourRow.appendChild(labourVal);
-        inner.appendChild(labourRow);
-
-        // Reality
-        inner.appendChild(jobRow("Site Reality", job.reality));
-
-        // Next Action (highlighted)
-        const na = el("div", { className: "next-action-block" });
-        na.appendChild(el("div", { className: "job-label", textContent: "Next Action" }));
-        na.appendChild(el("div", { className: "job-value", textContent: job.nextAction }));
-        inner.appendChild(na);
-
-        card.appendChild(inner);
-        container.appendChild(card);
-      });
-    }
-
-    function jobRow(label, value) {
-      const row = el("div", { className: "job-row" });
-      row.appendChild(el("div", { className: "job-label", textContent: label }));
-      row.appendChild(el("div", { className: "job-value", textContent: value }));
-      return row;
-    }
-
-    /* ── Search ───────────────────────────────────────── */
-
-    document.getElementById("searchInput").addEventListener("input", renderJobs);
-
-    /* ── Init ─────────────────────────────────────────── */
-
-    function init() {
-      if (!window.snapshotData) {
-        document.getElementById("jobsContainer").innerHTML =
-          '<div class="empty-state">Error: snapshot data could not be loaded.</div>';
-        return;
-      }
-      const kpis = computeKPIs(snapshotData.jobs);
-      renderHeader();
-      renderKPIs(kpis);
+  // KPI click
+  document.querySelectorAll(".kpi-card[data-filter]").forEach(function(card) {
+    card.addEventListener("click", function() {
+      currentFilter = card.getAttribute("data-filter");
       renderFilters();
       renderJobs();
+      syncKPI();
+    });
+    card.addEventListener("keydown", function(e) {
+      if (e.key === "Enter" || e.key === " ") card.click();
+    });
+  });
+
+  function syncKPI() {
+    document.querySelectorAll(".kpi-card").forEach(function(card) {
+      card.classList.toggle("kpi-active", card.getAttribute("data-filter") === currentFilter);
+    });
+  }
+
+  // Jobs
+  function renderJobs() {
+    var grid   = document.getElementById("jobsGrid");
+    var search = document.getElementById("searchInput").value.trim().toLowerCase();
+    var jobs   = data.jobs.filter(function(j) {
+      return j.name.toLowerCase().indexOf(search) !== -1 &&
+             (currentFilter === "All" || j.status === currentFilter);
+    });
+
+    if (!jobs.length) {
+      grid.innerHTML = '<div class="empty">No jobs match your filter or search.</div>';
+      return;
     }
 
-    init();
-  </script>
+    grid.innerHTML = jobs.map(function(job) {
+      var s = STATUS[job.status] || STATUS["Unknown"];
+      var l = LABOUR[job.labour] || "l-unk";
+      return '<div class="job-card ' + s.card + '">' +
+        '<div class="card-body">' +
+          '<div class="card-head">' +
+            '<h2 class="job-name">' + esc(job.name) + '</h2>' +
+            '<span class="status-badge ' + s.badge + '">' + esc(s.label) + '</span>' +
+          '</div>' +
+          '<div class="field"><div class="field-label">Holding Up</div><div class="field-value">' + esc(job.holdingUp) + '</div></div>' +
+          '<div class="field"><div class="field-label">Labour</div><div class="field-value"><span class="labour-pill ' + l + '">' + esc(job.labour) + '</span></div></div>' +
+          '<div class="field"><div class="field-label">Site Reality</div><div class="field-value">' + esc(job.reality) + '</div></div>' +
+          '<div class="next-action"><div class="field-label">Next Action</div><div class="field-value">' + esc(job.nextAction) + '</div></div>' +
+        '</div></div>';
+    }).join("");
+  }
+
+  document.getElementById("searchInput").addEventListener("input", renderJobs);
+
+  renderFilters();
+  renderJobs();
+</script>
 </body>
 </html>
